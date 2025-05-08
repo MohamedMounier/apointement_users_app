@@ -9,4 +9,6 @@ class ScreenRouterHelper {
   const ScreenRouterHelper(this._router);
 
   Future<void> navigateToLogin() => _router.pushNamed(RouterName.login);
+  Future<void> navigateToSignUp() => _router.pushNamed(RouterName.signUp);
+  void navigateToHome() => _router.popUntil(RouterName.home);
 }

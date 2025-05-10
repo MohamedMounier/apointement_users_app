@@ -1,3 +1,5 @@
+import 'package:appointment_users/core/converters/timestamp_converter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
 import '../../domain/entities/specialist_entity.dart';
 
@@ -7,17 +9,23 @@ part 'specialist_model.g.dart';
 class SpecialistModel {
   final String id;
   final String name;
-  final String specialization;
+  final String category;
+  @JsonKey(name: 'available_days')
   final List<String> availableDays;
+  @JsonKey(name: 'available_times')
   final List<String> availableTimes;
   final String? bio;
+  @JsonKey(name: 'created_at')
+  @TimestampConverter()
+  final Timestamp createdAt;
 
   SpecialistModel({
     required this.id,
     required this.name,
-    required this.specialization,
+    required this.category,
     required this.availableDays,
     required this.availableTimes,
+    required this.createdAt,
     this.bio,
   });
 
@@ -27,9 +35,11 @@ class SpecialistModel {
   SpecialistEntity toEntity() => SpecialistEntity(
     id: id,
     name: name,
-    specialization: specialization,
+    category: category,
     availableDays: availableDays,
     availableTimes: availableTimes,
+    createdAt: createdAt.toDate(),
+
     bio: bio,
   );
 }

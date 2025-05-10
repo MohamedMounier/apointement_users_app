@@ -14,10 +14,14 @@ import 'package:appointment_users/data/data_source/local/user_local_data_source.
     as _i45;
 import 'package:appointment_users/data/data_source/remote/auth_data_source.dart'
     as _i1061;
+import 'package:appointment_users/data/data_source/remote/specialists_data_source.dart'
+    as _i1051;
 import 'package:appointment_users/data/repository/auth/auth_repo_impl.dart'
     as _i357;
 import 'package:appointment_users/data/repository/auth/user_local_repo_impl.dart'
     as _i232;
+import 'package:appointment_users/data/repository/specialists/specialists_repo_impl.dart'
+    as _i480;
 import 'package:appointment_users/di/firebase_module.dart' as _i123;
 import 'package:appointment_users/di/global_key_module.dart' as _i784;
 import 'package:appointment_users/di/secure_storage_module.dart' as _i404;
@@ -25,6 +29,8 @@ import 'package:appointment_users/domain/repository/auth/auth_repo.dart'
     as _i806;
 import 'package:appointment_users/domain/repository/auth/user_local_repo.dart'
     as _i14;
+import 'package:appointment_users/domain/repository/specialists/specialists_repo.dart'
+    as _i529;
 import 'package:appointment_users/domain/use_cases/auth/delete_user_id_usecase.dart'
     as _i711;
 import 'package:appointment_users/domain/use_cases/auth/fetch_user_by_uid_usecase.dart'
@@ -39,6 +45,10 @@ import 'package:appointment_users/domain/use_cases/auth/sign_out_usecase.dart'
     as _i105;
 import 'package:appointment_users/domain/use_cases/auth/sign_up_usecase.dart'
     as _i923;
+import 'package:appointment_users/domain/use_cases/specialists/get_specialists_by_category_usecase.dart'
+    as _i111;
+import 'package:appointment_users/domain/use_cases/specialists/get_specializations_categories_usecase.dart'
+    as _i707;
 import 'package:appointment_users/presentation/blocs/auth/auth_cubit.dart'
     as _i910;
 import 'package:appointment_users/presentation/blocs/home/home_cubit.dart'
@@ -79,11 +89,27 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i986.AppRouterHelper>(
       () => _i986.AppRouterHelper(gh<_i409.GlobalKey<_i409.NavigatorState>>()),
     );
+    gh.lazySingleton<_i1051.SpecialistsDataSource>(
+      () => _i1051.SpecialistsDataSourceImpl(gh<_i974.FirebaseFirestore>()),
+    );
+    gh.lazySingleton<_i529.SpecialistsRepository>(
+      () => _i480.SpecialistsRepositoryImpl(gh<_i1051.SpecialistsDataSource>()),
+    );
     gh.lazySingleton<_i806.AuthRepository>(
       () => _i357.AuthRepositoryImpl(gh<_i1061.AuthDataSource>()),
     );
     gh.lazySingleton<_i45.UserLocalDataSource>(
       () => _i45.UserLocalDataSource(gh<_i86.AppPreferences>()),
+    );
+    gh.lazySingleton<_i111.GetSpecialistsByCategoryUseCase>(
+      () => _i111.GetSpecialistsByCategoryUseCase(
+        gh<_i529.SpecialistsRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i707.GetSpecializationCategoriesUseCase>(
+      () => _i707.GetSpecializationCategoriesUseCase(
+        gh<_i529.SpecialistsRepository>(),
+      ),
     );
     gh.singleton<_i97.ScreenRouterHelper>(
       () => _i97.ScreenRouterHelper(gh<_i986.AppRouterHelper>()),
@@ -125,6 +151,8 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i366.FetchUserByIdCase>(),
         gh<_i462.GetUserIdUseCase>(),
         gh<_i573.SaveUserIdUseCase>(),
+        gh<_i111.GetSpecialistsByCategoryUseCase>(),
+        gh<_i707.GetSpecializationCategoriesUseCase>(),
       ),
     );
     return this;

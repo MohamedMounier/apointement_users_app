@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
           lazy: true,
           create: (_) => UiControlCubit(),
         ),
-        BlocProvider<HomeCubit>(lazy: true, create: (_) => HomeCubit(diContainer(),diContainer(),diContainer(),diContainer())..getUserBySavedLocalUid()),
+        BlocProvider<HomeCubit>(lazy: true, create: (_) => HomeCubit(diContainer(),diContainer(),diContainer(),diContainer(),diContainer(),diContainer())..getUserBySavedLocalUid()),
       ],
       child: ResponsiveLayout.builder(
         builder: (context, child) {

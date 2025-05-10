@@ -2,14 +2,27 @@ import 'package:appointment_users/core/utils/enums/app_enums.dart';
 import 'package:appointment_users/di/di_container.dart';
 import 'package:appointment_users/presentation/blocs/home/home_cubit.dart';
 import 'package:appointment_users/presentation/blocs/home/home_state.dart';
+import 'package:appointment_users/presentation/screens/home/views/specialis/category_choices_drop_down.dart';
+import 'package:appointment_users/presentation/screens/home/views/specialis/specialists_list_view.dart';
 import 'package:appointment_users/presentation/widgets/loading_lottie.dart';
 import 'package:appointment_users/router/screen_router_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class HomeMobileScreen extends StatelessWidget {
+class HomeMobileScreen extends StatefulWidget {
   const HomeMobileScreen({super.key});
 
+  @override
+  State<HomeMobileScreen> createState() => _HomeMobileScreenState();
+}
+
+class _HomeMobileScreenState extends State<HomeMobileScreen> {
+  @override
+  void initState() {
+    context.read<HomeCubit>().getCategories();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeCubit, HomeState>(
@@ -24,10 +37,13 @@ class HomeMobileScreen extends StatelessWidget {
       },
       builder: (context, state) {
        if((state.requestState==RequestState.loading)||state.currentUser==null){
-          return const Center(
-            child: LoadingLottie(
-              width: 100,
-              height: 100,
+          return Scaffold(
+
+            body: const Center(
+              child: LoadingLottie(
+                width: 100,
+                height: 100,
+              ),
             ),
           );
        }else{
@@ -45,7 +61,7 @@ class HomeMobileScreen extends StatelessWidget {
              ],
            ),
            body: Center(
-             child: Column(
+             child: state.categories.isNotEmpty?Column(
                children: [
                  Text('${context.read<HomeCubit>().state.currentUser!.name}'),
                  TextButton(
@@ -54,7 +70,16 @@ class HomeMobileScreen extends StatelessWidget {
                      diContainer<ScreenRouterHelper>().navigateToLogin();
                    },
                  ),
+                 SizedBox(
+                     height: 60.h,
+                     child: CategoryChoicesDropDown()),
+                 Expanded(child: SpecialistsListView())
                ],
+             ):Center(
+               child: LoadingLottie(
+                 width: 100,
+                 height: 100,
+               ),
              ),
            ),
          );

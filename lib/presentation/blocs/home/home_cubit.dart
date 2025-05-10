@@ -1,9 +1,13 @@
 import 'package:appointment_users/core/utils/enums/app_enums.dart';
+import 'package:appointment_users/data/data_source/remote/const_collections.dart';
+import 'package:appointment_users/domain/entities/specialization_category_entity.dart';
 import 'package:appointment_users/domain/entities/user_entity.dart';
 import 'package:appointment_users/domain/use_cases/auth/fetch_user_by_uid_usecase.dart';
 import 'package:appointment_users/domain/use_cases/auth/get_user_id_use_case.dart';
 import 'package:appointment_users/domain/use_cases/auth/save_user_id_usecase.dart';
 import 'package:appointment_users/domain/use_cases/auth/sign_out_usecase.dart';
+import 'package:appointment_users/domain/use_cases/specialists/get_specialists_by_category_usecase.dart';
+import 'package:appointment_users/domain/use_cases/specialists/get_specializations_categories_usecase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -16,12 +20,14 @@ class HomeCubit extends Cubit<HomeState> {
   final GetUserIdUseCase _getUserIdUseCase;
   final SaveUserIdUseCase _saveUserIdUseCase;
   final FetchUserByIdCase _fetchUserByIdCase;
+  final GetSpecialistsByCategoryUseCase _getSpecialistsByCategory;
+  final GetSpecializationCategoriesUseCase _getCategories;
 
   HomeCubit(
     this._signOutUseCase,
     this._fetchUserByIdCase,
     this._getUserIdUseCase,
-    this._saveUserIdUseCase,
+    this._saveUserIdUseCase, this._getSpecialistsByCategory, this._getCategories,
   ) : super(
         HomeState(
           requestState: RequestState.none,
@@ -32,6 +38,69 @@ class HomeCubit extends Cubit<HomeState> {
         ),
       );
 
+
+  Future<void> loadMoreSpecialists() async {
+    if (!state.hasMoreSpecialists || state.isLoadingSpecialists) return;
+
+    emit(state.copyWith(isLoadingSpecialists: true));
+
+    final result = await _getSpecialistsByCategory(
+      categoryName: state.chosenCategory!.name,
+      startAfter: state.lastSpecialistDoc,
+    );
+
+    result.when(
+      success: (page) {
+        emit(state.copyWith(
+          specialists: [...state.specialists, ...page.data],
+          lastSpecialistDoc: page.lastDoc,
+          hasMoreSpecialists: page.data.length == ConstFirebaseData.itemsCountPerPage,
+          isLoadingSpecialists: false,
+        ));
+      },
+      failure: (err) => emit(state.copyWith(
+        errorMessage: err.message,
+        isLoadingSpecialists: false,
+      )),
+    );
+  }
+  Future<void> loadInitialSpecialists(String categoryName) async {
+    debugPrint('Called loadInitialSpecialists');
+    emit(state.copyWith(
+      isLoadingSpecialists: true,
+      specialists: [],
+      lastSpecialistDoc: null,
+      hasMoreSpecialists: true,
+    ));
+
+    final result = await _getSpecialistsByCategory(
+      categoryName: categoryName,
+    );
+
+    result.when(
+      success: (page) {
+        debugPrint('Result loadInitialSpecialists Success and data is ${page.data}');
+
+        emit(state.copyWith(
+          specialists: page.data,
+          lastSpecialistDoc: page.lastDoc,
+          hasMoreSpecialists: page.data.length == ConstFirebaseData.itemsCountPerPage,
+          userSteps: UserSteps.isLoadedSpecialists,
+          isLoadingSpecialists: false,
+        ));
+      },
+      failure: (err){
+        debugPrint('Result loadInitialSpecialists Error and error  is ${err.message}');
+        emit(state.copyWith(
+          errorMessage: err.message,
+          isLoadingSpecialists: false,
+          specialists: [],
+          userSteps: UserSteps.isLoadedSpecialists,
+
+        ));
+      },
+    );
+  }
   Future<void> getUserBySavedLocalUid() async {
     emit(state.copyWith(requestState: RequestState.loading));
 
@@ -170,5 +239,43 @@ class HomeCubit extends Cubit<HomeState> {
         errorMessage: '',
       ),
     );
+  }
+  Future<void> getCategories() async {
+    emit(state.copyWith(requestState: RequestState.loading,
+        userSteps: UserSteps.isLoadingCategories));
+    final result = await _getCategories();
+    debugPrint('Called getCategories');
+    result.when(
+      success: (categories) {
+        debugPrint('Success getCategories');
+
+        emit(state.copyWith(
+          categories: categories,
+          chosenCategory: categories.first,
+          requestState: RequestState.success,
+          userSteps: UserSteps.isFetchedCategories,
+        ));
+        loadInitialSpecialists(categories.first.name);
+      },
+      failure: (failure) {
+        debugPrint('Failed getCategories');
+
+        emit(state.copyWith(
+          categories: [],
+          errorMessage: failure.message,
+          requestState: RequestState.error,
+          userSteps: UserSteps.isFetchedCategories,
+
+        ));
+      },
+    );
+  }
+  void chooseCategory(SpecializationCategoryEntity category) {
+    emit(state.copyWith(
+      chosenCategory: category,
+      userSteps: UserSteps.isChangedCategory,
+      requestState: RequestState.none,
+    ));
+    loadInitialSpecialists(category.name);
   }
 }

@@ -4,6 +4,7 @@ import 'package:appointment_users/core/utils/enums/app_enums.dart';
 import 'package:appointment_users/di/di_container.dart';
 import 'package:appointment_users/presentation/blocs/home/home_cubit.dart';
 import 'package:appointment_users/presentation/blocs/home/home_state.dart';
+import 'package:appointment_users/router/screen_router_helper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -69,6 +70,9 @@ class _SpecialistsListViewState extends State<SpecialistsListView> {
                 leading: const Icon(Icons.person),
                 title: Text(specialist.name),
                 subtitle: Text(specialist.category),
+                trailing: IconButton(onPressed: (){
+                  diContainer<ScreenRouterHelper>().navigateToBookAppointmentScreen(specialist: specialist);
+                }, icon: Icon(Icons.book)),
               );
             },
           );

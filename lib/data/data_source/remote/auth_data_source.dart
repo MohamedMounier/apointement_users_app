@@ -120,7 +120,6 @@ class FirebaseAuthDataSource implements AuthDataSource {
     } on FirebaseException catch (e) {
       return ResponseWrapper.failure(FirebaseErrorModel.fromCode(e.code));
     } catch (_) {
-      rethrow;
       return const ResponseWrapper.failure(
         LocalErrorModel(message: 'Unexpected error during Fetching User', code: 500),
       );

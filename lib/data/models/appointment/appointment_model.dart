@@ -1,0 +1,50 @@
+import 'package:appointment_users/core/converters/timestamp_converter.dart';
+import 'package:appointment_users/data/models/enums/models_enums.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+import '../../../domain/entities/appointment/appointment_entity.dart';
+
+part 'appointment_model.g.dart';
+
+@JsonSerializable()
+class AppointmentModel {
+  final String id;
+  final String userId;
+  final String specialistId;
+  @JsonKey(name: 'current_booked_date')
+  @TimestampConverter()
+  final Timestamp currentBookedDate;
+  final AppointmentStatus status;
+  @JsonKey(name: 'reschedule_requested_date')
+  @TimestampConverter()
+  final Timestamp? rescheduleRequestedDate;
+  @JsonKey(name: 'created_at')
+  @TimestampConverter()
+  final Timestamp createdAt;
+
+  AppointmentModel({
+    required this.id,
+    required this.userId,
+    required this.specialistId,
+    required this.currentBookedDate,
+    required this.status,
+    required this.createdAt,
+    this.rescheduleRequestedDate,
+  });
+
+  factory AppointmentModel.fromJson(Map<String, dynamic> json) =>
+      _$AppointmentModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AppointmentModelToJson(this);
+
+  AppointmentEntity toEntity() => AppointmentEntity(
+    id: id,
+    userId: userId,
+    specialistId: specialistId,
+    currentBookedDate: currentBookedDate.toDate(),
+    status: status,
+    rescheduleRequestedDate: rescheduleRequestedDate?.toDate(),
+    createdAt: createdAt.toDate(),
+  );
+}

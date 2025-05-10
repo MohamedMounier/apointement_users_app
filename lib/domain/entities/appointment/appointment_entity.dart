@@ -4,22 +4,27 @@ class AppointmentEntity {
   final String id;
   final String userId;
   final String specialistId;
-  final DateTime dateTime;
   final AppointmentStatus status;
-  final DateTime? rescheduleRequestedFor;
+  final DateTime currentBookedDate;
+
+  final DateTime? rescheduleRequestedDate;
+  final DateTime createdAt;
 
   AppointmentEntity({
     required this.id,
     required this.userId,
     required this.specialistId,
-    required this.dateTime,
     required this.status,
-    this.rescheduleRequestedFor,
+    required this.currentBookedDate,
+    required this.createdAt,
+
+    this.rescheduleRequestedDate,
+
   });
 
   bool get isCancellable =>
       status == AppointmentStatus.confirmed &&
-      dateTime.difference(DateTime.now()).inHours >= 2;
+          currentBookedDate.difference(DateTime.now()).inHours >= 2;
 
   bool get canRequestReschedule =>
       status == AppointmentStatus.confirmed ||
@@ -33,6 +38,10 @@ class AppointmentEntity {
         return 'Confirmed';
       case AppointmentStatus.cancelled:
         return 'Cancelled';
+      case AppointmentStatus.underReview:
+        return 'Under Review';
+      case AppointmentStatus.pendingAvailability:
+        return 'Pending Availability';
       case AppointmentStatus.requestedReschedule:
         return 'Reschedule Requested';
     }

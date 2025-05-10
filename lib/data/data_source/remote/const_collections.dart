@@ -2,7 +2,7 @@ class ConstFirebaseData{
   static const String usersCollection='users';
   static const String specialistsCollection='Specialists';
   static const String specializationCollection='Specialization';
-  static const String appointmentsCollection='Specialists';
+  static const String appointmentsCollection='Appointments';
 
   /// Fields Consts
   static const String category='category';

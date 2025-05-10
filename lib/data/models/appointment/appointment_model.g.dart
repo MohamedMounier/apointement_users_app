@@ -14,7 +14,9 @@ AppointmentModel _$AppointmentModelFromJson(Map<String, dynamic> json) =>
       currentBookedDate: const TimestampConverter().fromJson(
         json['current_booked_date'] as Object,
       ),
-      status: $enumDecode(_$AppointmentStatusEnumMap, json['status']),
+      status: const AppointmentStatusJsonConverter().fromJson(
+        json['status'] as Object,
+      ),
       createdAt: const TimestampConverter().fromJson(
         json['created_at'] as Object,
       ),
@@ -32,22 +34,13 @@ Map<String, dynamic> _$AppointmentModelToJson(AppointmentModel instance) =>
       'current_booked_date': const TimestampConverter().toJson(
         instance.currentBookedDate,
       ),
-      'status': _$AppointmentStatusEnumMap[instance.status]!,
+      'status': const AppointmentStatusJsonConverter().toJson(instance.status),
       'reschedule_requested_date': _$JsonConverterToJson<Object, Timestamp>(
         instance.rescheduleRequestedDate,
         const TimestampConverter().toJson,
       ),
       'created_at': const TimestampConverter().toJson(instance.createdAt),
     };
-
-const _$AppointmentStatusEnumMap = {
-  AppointmentStatus.pending: 'pending',
-  AppointmentStatus.confirmed: 'confirmed',
-  AppointmentStatus.cancelled: 'cancelled',
-  AppointmentStatus.pendingAvailability: 'pendingAvailability',
-  AppointmentStatus.underReview: 'underReview',
-  AppointmentStatus.requestedReschedule: 'requestedReschedule',
-};
 
 Value? _$JsonConverterFromJson<Json, Value>(
   Object? json,

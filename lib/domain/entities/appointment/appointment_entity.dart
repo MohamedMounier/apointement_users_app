@@ -1,4 +1,4 @@
-import 'package:appointment_users/data/models/enums/models_enums.dart';
+import 'package:appointment_users/core/utils/enums/app_enums.dart';
 
 class AppointmentEntity {
   final String id;
@@ -19,12 +19,11 @@ class AppointmentEntity {
     required this.createdAt,
 
     this.rescheduleRequestedDate,
-
   });
 
   bool get isCancellable =>
       status == AppointmentStatus.confirmed &&
-          currentBookedDate.difference(DateTime.now()).inHours >= 2;
+      currentBookedDate.difference(DateTime.now()).inHours >= 2;
 
   bool get canRequestReschedule =>
       status == AppointmentStatus.confirmed ||

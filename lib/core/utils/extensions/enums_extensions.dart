@@ -10,5 +10,28 @@ extension UserTypesExtension on UserTypes {
         return "User";
     }
   }
+}
 
+extension AppointmentStatusExtension on AppointmentStatus {
+  // Getter for the typeName
+  String get statusName {
+    switch (this) {
+      case AppointmentStatus.pending:
+        return 'Pending';
+      case AppointmentStatus.confirmed:
+        return 'Confirmed';
+
+      case AppointmentStatus.cancelled:
+        return 'Cancelled';
+
+      case AppointmentStatus.pendingAvailability:
+        return 'Pending Availability';
+
+      case AppointmentStatus.underReview:
+        return 'Under Review';
+
+      case AppointmentStatus.requestedReschedule:
+        return 'Reschedule Requested';
+    }
+  }
 }

@@ -9,3 +9,11 @@ enum BookAppointmentSteps {
   appointmentBooked,
   error,
 }
+enum AppointmentStatus {
+  pending,
+  confirmed,
+  cancelled,
+  pendingAvailability,
+  underReview,
+  requestedReschedule,
+}

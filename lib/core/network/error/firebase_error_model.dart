@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'base_error_model.dart';
 
 class FirebaseErrorModel extends BaseErrorModel {
-  const FirebaseErrorModel({required super.message, required super.code});
+  const FirebaseErrorModel({required super.message,  super.code});
 
   static FirebaseErrorModel fromCode(String code) {
     switch (code) {

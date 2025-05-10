@@ -21,7 +21,19 @@ mixin _$HomeState {
   bool get isLoading => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
   RequestState? get requestState => throw _privateConstructorUsedError;
-  UserSteps? get userSteps => throw _privateConstructorUsedError;
+  UserSteps? get userSteps =>
+      throw _privateConstructorUsedError; // Specializations Categories
+  List<SpecializationCategoryEntity> get categories =>
+      throw _privateConstructorUsedError;
+  SpecializationCategoryEntity? get chosenCategory =>
+      throw _privateConstructorUsedError;
+  bool get isLoadingCategories =>
+      throw _privateConstructorUsedError; // Specialists & Pagination
+  List<SpecialistEntity> get specialists => throw _privateConstructorUsedError;
+  DocumentSnapshot<Object?>? get lastSpecialistDoc =>
+      throw _privateConstructorUsedError;
+  bool get hasMoreSpecialists => throw _privateConstructorUsedError;
+  bool get isLoadingSpecialists => throw _privateConstructorUsedError;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -41,6 +53,13 @@ abstract class $HomeStateCopyWith<$Res> {
     String? errorMessage,
     RequestState? requestState,
     UserSteps? userSteps,
+    List<SpecializationCategoryEntity> categories,
+    SpecializationCategoryEntity? chosenCategory,
+    bool isLoadingCategories,
+    List<SpecialistEntity> specialists,
+    DocumentSnapshot<Object?>? lastSpecialistDoc,
+    bool hasMoreSpecialists,
+    bool isLoadingSpecialists,
   });
 }
 
@@ -64,6 +83,13 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? errorMessage = freezed,
     Object? requestState = freezed,
     Object? userSteps = freezed,
+    Object? categories = null,
+    Object? chosenCategory = freezed,
+    Object? isLoadingCategories = null,
+    Object? specialists = null,
+    Object? lastSpecialistDoc = freezed,
+    Object? hasMoreSpecialists = null,
+    Object? isLoadingSpecialists = null,
   }) {
     return _then(
       _value.copyWith(
@@ -92,6 +118,41 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
                     ? _value.userSteps
                     : userSteps // ignore: cast_nullable_to_non_nullable
                         as UserSteps?,
+            categories:
+                null == categories
+                    ? _value.categories
+                    : categories // ignore: cast_nullable_to_non_nullable
+                        as List<SpecializationCategoryEntity>,
+            chosenCategory:
+                freezed == chosenCategory
+                    ? _value.chosenCategory
+                    : chosenCategory // ignore: cast_nullable_to_non_nullable
+                        as SpecializationCategoryEntity?,
+            isLoadingCategories:
+                null == isLoadingCategories
+                    ? _value.isLoadingCategories
+                    : isLoadingCategories // ignore: cast_nullable_to_non_nullable
+                        as bool,
+            specialists:
+                null == specialists
+                    ? _value.specialists
+                    : specialists // ignore: cast_nullable_to_non_nullable
+                        as List<SpecialistEntity>,
+            lastSpecialistDoc:
+                freezed == lastSpecialistDoc
+                    ? _value.lastSpecialistDoc
+                    : lastSpecialistDoc // ignore: cast_nullable_to_non_nullable
+                        as DocumentSnapshot<Object?>?,
+            hasMoreSpecialists:
+                null == hasMoreSpecialists
+                    ? _value.hasMoreSpecialists
+                    : hasMoreSpecialists // ignore: cast_nullable_to_non_nullable
+                        as bool,
+            isLoadingSpecialists:
+                null == isLoadingSpecialists
+                    ? _value.isLoadingSpecialists
+                    : isLoadingSpecialists // ignore: cast_nullable_to_non_nullable
+                        as bool,
           )
           as $Val,
     );
@@ -113,6 +174,13 @@ abstract class _$$HomeStateImplCopyWith<$Res>
     String? errorMessage,
     RequestState? requestState,
     UserSteps? userSteps,
+    List<SpecializationCategoryEntity> categories,
+    SpecializationCategoryEntity? chosenCategory,
+    bool isLoadingCategories,
+    List<SpecialistEntity> specialists,
+    DocumentSnapshot<Object?>? lastSpecialistDoc,
+    bool hasMoreSpecialists,
+    bool isLoadingSpecialists,
   });
 }
 
@@ -135,6 +203,13 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? errorMessage = freezed,
     Object? requestState = freezed,
     Object? userSteps = freezed,
+    Object? categories = null,
+    Object? chosenCategory = freezed,
+    Object? isLoadingCategories = null,
+    Object? specialists = null,
+    Object? lastSpecialistDoc = freezed,
+    Object? hasMoreSpecialists = null,
+    Object? isLoadingSpecialists = null,
   }) {
     return _then(
       _$HomeStateImpl(
@@ -163,6 +238,41 @@ class __$$HomeStateImplCopyWithImpl<$Res>
                 ? _value.userSteps
                 : userSteps // ignore: cast_nullable_to_non_nullable
                     as UserSteps?,
+        categories:
+            null == categories
+                ? _value._categories
+                : categories // ignore: cast_nullable_to_non_nullable
+                    as List<SpecializationCategoryEntity>,
+        chosenCategory:
+            freezed == chosenCategory
+                ? _value.chosenCategory
+                : chosenCategory // ignore: cast_nullable_to_non_nullable
+                    as SpecializationCategoryEntity?,
+        isLoadingCategories:
+            null == isLoadingCategories
+                ? _value.isLoadingCategories
+                : isLoadingCategories // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        specialists:
+            null == specialists
+                ? _value._specialists
+                : specialists // ignore: cast_nullable_to_non_nullable
+                    as List<SpecialistEntity>,
+        lastSpecialistDoc:
+            freezed == lastSpecialistDoc
+                ? _value.lastSpecialistDoc
+                : lastSpecialistDoc // ignore: cast_nullable_to_non_nullable
+                    as DocumentSnapshot<Object?>?,
+        hasMoreSpecialists:
+            null == hasMoreSpecialists
+                ? _value.hasMoreSpecialists
+                : hasMoreSpecialists // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        isLoadingSpecialists:
+            null == isLoadingSpecialists
+                ? _value.isLoadingSpecialists
+                : isLoadingSpecialists // ignore: cast_nullable_to_non_nullable
+                    as bool,
       ),
     );
   }
@@ -177,7 +287,15 @@ class _$HomeStateImpl implements _HomeState {
     this.errorMessage,
     this.requestState,
     this.userSteps,
-  });
+    final List<SpecializationCategoryEntity> categories = const [],
+    this.chosenCategory,
+    this.isLoadingCategories = false,
+    final List<SpecialistEntity> specialists = const [],
+    this.lastSpecialistDoc,
+    this.hasMoreSpecialists = false,
+    this.isLoadingSpecialists = false,
+  }) : _categories = categories,
+       _specialists = specialists;
 
   @override
   final UserEntity? currentUser;
@@ -190,10 +308,45 @@ class _$HomeStateImpl implements _HomeState {
   final RequestState? requestState;
   @override
   final UserSteps? userSteps;
+  // Specializations Categories
+  final List<SpecializationCategoryEntity> _categories;
+  // Specializations Categories
+  @override
+  @JsonKey()
+  List<SpecializationCategoryEntity> get categories {
+    if (_categories is EqualUnmodifiableListView) return _categories;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_categories);
+  }
+
+  @override
+  final SpecializationCategoryEntity? chosenCategory;
+  @override
+  @JsonKey()
+  final bool isLoadingCategories;
+  // Specialists & Pagination
+  final List<SpecialistEntity> _specialists;
+  // Specialists & Pagination
+  @override
+  @JsonKey()
+  List<SpecialistEntity> get specialists {
+    if (_specialists is EqualUnmodifiableListView) return _specialists;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_specialists);
+  }
+
+  @override
+  final DocumentSnapshot<Object?>? lastSpecialistDoc;
+  @override
+  @JsonKey()
+  final bool hasMoreSpecialists;
+  @override
+  @JsonKey()
+  final bool isLoadingSpecialists;
 
   @override
   String toString() {
-    return 'HomeState(currentUser: $currentUser, isLoading: $isLoading, errorMessage: $errorMessage, requestState: $requestState, userSteps: $userSteps)';
+    return 'HomeState(currentUser: $currentUser, isLoading: $isLoading, errorMessage: $errorMessage, requestState: $requestState, userSteps: $userSteps, categories: $categories, chosenCategory: $chosenCategory, isLoadingCategories: $isLoadingCategories, specialists: $specialists, lastSpecialistDoc: $lastSpecialistDoc, hasMoreSpecialists: $hasMoreSpecialists, isLoadingSpecialists: $isLoadingSpecialists)';
   }
 
   @override
@@ -210,7 +363,25 @@ class _$HomeStateImpl implements _HomeState {
             (identical(other.requestState, requestState) ||
                 other.requestState == requestState) &&
             (identical(other.userSteps, userSteps) ||
-                other.userSteps == userSteps));
+                other.userSteps == userSteps) &&
+            const DeepCollectionEquality().equals(
+              other._categories,
+              _categories,
+            ) &&
+            (identical(other.chosenCategory, chosenCategory) ||
+                other.chosenCategory == chosenCategory) &&
+            (identical(other.isLoadingCategories, isLoadingCategories) ||
+                other.isLoadingCategories == isLoadingCategories) &&
+            const DeepCollectionEquality().equals(
+              other._specialists,
+              _specialists,
+            ) &&
+            (identical(other.lastSpecialistDoc, lastSpecialistDoc) ||
+                other.lastSpecialistDoc == lastSpecialistDoc) &&
+            (identical(other.hasMoreSpecialists, hasMoreSpecialists) ||
+                other.hasMoreSpecialists == hasMoreSpecialists) &&
+            (identical(other.isLoadingSpecialists, isLoadingSpecialists) ||
+                other.isLoadingSpecialists == isLoadingSpecialists));
   }
 
   @override
@@ -221,6 +392,13 @@ class _$HomeStateImpl implements _HomeState {
     errorMessage,
     requestState,
     userSteps,
+    const DeepCollectionEquality().hash(_categories),
+    chosenCategory,
+    isLoadingCategories,
+    const DeepCollectionEquality().hash(_specialists),
+    lastSpecialistDoc,
+    hasMoreSpecialists,
+    isLoadingSpecialists,
   );
 
   /// Create a copy of HomeState
@@ -239,6 +417,13 @@ abstract class _HomeState implements HomeState {
     final String? errorMessage,
     final RequestState? requestState,
     final UserSteps? userSteps,
+    final List<SpecializationCategoryEntity> categories,
+    final SpecializationCategoryEntity? chosenCategory,
+    final bool isLoadingCategories,
+    final List<SpecialistEntity> specialists,
+    final DocumentSnapshot<Object?>? lastSpecialistDoc,
+    final bool hasMoreSpecialists,
+    final bool isLoadingSpecialists,
   }) = _$HomeStateImpl;
 
   @override
@@ -250,7 +435,21 @@ abstract class _HomeState implements HomeState {
   @override
   RequestState? get requestState;
   @override
-  UserSteps? get userSteps;
+  UserSteps? get userSteps; // Specializations Categories
+  @override
+  List<SpecializationCategoryEntity> get categories;
+  @override
+  SpecializationCategoryEntity? get chosenCategory;
+  @override
+  bool get isLoadingCategories; // Specialists & Pagination
+  @override
+  List<SpecialistEntity> get specialists;
+  @override
+  DocumentSnapshot<Object?>? get lastSpecialistDoc;
+  @override
+  bool get hasMoreSpecialists;
+  @override
+  bool get isLoadingSpecialists;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.

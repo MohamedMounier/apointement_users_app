@@ -20,10 +20,13 @@ AppointmentModel _$AppointmentModelFromJson(Map<String, dynamic> json) =>
       createdAt: const TimestampConverter().fromJson(
         json['created_at'] as Object,
       ),
+      userName: json['userName'] as String,
+      specialistName: json['specialistName'] as String,
       rescheduleRequestedDate: _$JsonConverterFromJson<Object, Timestamp>(
         json['reschedule_requested_date'],
         const TimestampConverter().fromJson,
       ),
+      specialistBio: json['specialistBio'] as String?,
     );
 
 Map<String, dynamic> _$AppointmentModelToJson(AppointmentModel instance) =>
@@ -31,6 +34,9 @@ Map<String, dynamic> _$AppointmentModelToJson(AppointmentModel instance) =>
       'id': instance.id,
       'userId': instance.userId,
       'specialistId': instance.specialistId,
+      'userName': instance.userName,
+      'specialistName': instance.specialistName,
+      'specialistBio': instance.specialistBio,
       'current_booked_date': const TimestampConverter().toJson(
         instance.currentBookedDate,
       ),

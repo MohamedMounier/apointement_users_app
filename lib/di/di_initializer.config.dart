@@ -39,10 +39,16 @@ import 'package:appointment_users/domain/repository/specialists/specialists_repo
     as _i529;
 import 'package:appointment_users/domain/use_cases/appointments/book_appointment_usecase.dart'
     as _i1005;
+import 'package:appointment_users/domain/use_cases/appointments/cancel_appintment_use_case.dart'
+    as _i1065;
+import 'package:appointment_users/domain/use_cases/appointments/get_appointment_activities_use_case.dart'
+    as _i1052;
 import 'package:appointment_users/domain/use_cases/appointments/get_appointments_for_user_use_case.dart'
     as _i767;
 import 'package:appointment_users/domain/use_cases/appointments/get_available_times_use_case.dart'
     as _i1004;
+import 'package:appointment_users/domain/use_cases/appointments/reschedule_appointment_use_case.dart'
+    as _i294;
 import 'package:appointment_users/domain/use_cases/auth/delete_user_id_usecase.dart'
     as _i711;
 import 'package:appointment_users/domain/use_cases/auth/fetch_user_by_uid_usecase.dart'
@@ -63,6 +69,8 @@ import 'package:appointment_users/domain/use_cases/specialists/get_specializatio
     as _i707;
 import 'package:appointment_users/presentation/blocs/appointments/book_appointment_cubit.dart'
     as _i368;
+import 'package:appointment_users/presentation/blocs/appointments/edit_appointment_cubit.dart'
+    as _i112;
 import 'package:appointment_users/presentation/blocs/appointments/user_appointments_cubit.dart'
     as _i671;
 import 'package:appointment_users/presentation/blocs/auth/auth_cubit.dart'
@@ -171,11 +179,24 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1005.BookAppointmentUseCase>(
       () => _i1005.BookAppointmentUseCase(gh<_i980.AppointmentsRepository>()),
     );
+    gh.lazySingleton<_i1065.CancelAppointmentUseCase>(
+      () => _i1065.CancelAppointmentUseCase(gh<_i980.AppointmentsRepository>()),
+    );
+    gh.lazySingleton<_i294.RescheduleAppointmentUseCase>(
+      () => _i294.RescheduleAppointmentUseCase(
+        gh<_i980.AppointmentsRepository>(),
+      ),
+    );
     gh.lazySingleton<_i1004.GetAvailableTimesUseCase>(
       () => _i1004.GetAvailableTimesUseCase(gh<_i980.AppointmentsRepository>()),
     );
     gh.lazySingleton<_i767.GetAppointmentForUserUseCase>(
       () => _i767.GetAppointmentForUserUseCase(
+        gh<_i980.AppointmentsRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i1052.GetAppointmentActivitiesUseCase>(
+      () => _i1052.GetAppointmentActivitiesUseCase(
         gh<_i980.AppointmentsRepository>(),
       ),
     );
@@ -197,6 +218,14 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i368.BookAppointmentCubit(
         gh<_i1004.GetAvailableTimesUseCase>(),
         gh<_i1005.BookAppointmentUseCase>(),
+      ),
+    );
+    gh.factory<_i112.EditAppointmentCubit>(
+      () => _i112.EditAppointmentCubit(
+        gh<_i1065.CancelAppointmentUseCase>(),
+        gh<_i1052.GetAppointmentActivitiesUseCase>(),
+        gh<_i1004.GetAvailableTimesUseCase>(),
+        gh<_i294.RescheduleAppointmentUseCase>(),
       ),
     );
     return this;

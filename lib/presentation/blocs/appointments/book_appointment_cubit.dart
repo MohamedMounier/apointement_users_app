@@ -68,7 +68,7 @@ class BookAppointmentCubit extends Cubit<BookAppointmentState> {
     );
   }
 
-  Future<void> bookAppointment(String userId) async {
+  Future<void> bookAppointment({required String userId,required String userName}) async {
     if (state.selectedSpecialist == null ||
         state.selectedTime == null ||
         state.selectedDate == null) return;
@@ -87,12 +87,16 @@ class BookAppointmentCubit extends Cubit<BookAppointmentState> {
       int.parse(state.selectedTime!.split(":")[1]),
     );
 
+
     final result = await _bookAppointmentUseCase(
         AppointmentEntity(id: '${userId}_${state.selectedSpecialist!.id}_${fullDateTime.millisecondsSinceEpoch}',
             userId: userId,
+            specialistName: state.selectedSpecialist!.name,
+            specialistBio:state.selectedSpecialist?.bio ,
             specialistId: state.selectedSpecialist!.id,
             status: AppointmentStatus.confirmed,
             currentBookedDate: fullDateTime,
+            userName: userName,
             createdAt: DateTime.now())
     );
 

@@ -1,4 +1,5 @@
 import 'package:appointment_users/core/utils/enums/app_enums.dart';
+import 'package:appointment_users/core/utils/extensions/enums_extensions.dart';
 import 'package:appointment_users/data/data_source/remote/appointments__data_source.dart';
 import 'package:appointment_users/data/models/appointment/appointment_activity_model.dart';
 import 'package:appointment_users/data/models/appointment/appointment_model.dart';
@@ -19,7 +20,7 @@ class AppointmentsRepositoryImpl implements AppointmentsRepository {
   Future<ResponseWrapper<List<AppointmentEntity>>> getAppointmentsForSpecialist(
     String specialistId,
   ) async {
-    final response = await _dataSource.fetchAppointmentsForSpecialist(
+    final response = await _dataSource.fetchAvailableAppointmentsForSpecialist(
       specialistId: specialistId,
     );
 
@@ -30,18 +31,32 @@ class AppointmentsRepositoryImpl implements AppointmentsRepository {
       failure: ResponseWrapper.failure,
     );
   }
+
   @override
-  Future<ResponseWrapper<List<AppointmentEntity>>> getAppointmentsForUser(
-      String userId,
+  Future<ResponseWrapper<List<AppointmentActivityEntity>>> getAppointmentActivitiesByAppointmentId(
+      {required String appointmentId}
       ) async {
-    final response = await _dataSource.fetchAppointmentsForUser(
-      userId: userId,
+    final response = await _dataSource.fetchAppointmentActivitiesByAppointmentId(
+      appointmentId: appointmentId,
     );
 
     return response.when(
       success:
           (models) =>
           ResponseWrapper.success(models.map((m) => m.toEntity()).toList()),
+      failure: ResponseWrapper.failure,
+    );
+  }
+  @override
+  Future<ResponseWrapper<List<AppointmentEntity>>> getAppointmentsForUser(
+    String userId,
+  ) async {
+    final response = await _dataSource.fetchAppointmentsForUser(userId: userId);
+
+    return response.when(
+      success:
+          (models) =>
+              ResponseWrapper.success(models.map((m) => m.toEntity()).toList()),
       failure: ResponseWrapper.failure,
     );
   }
@@ -56,6 +71,9 @@ class AppointmentsRepositoryImpl implements AppointmentsRepository {
       specialistId: appointment.specialistId,
       currentBookedDate: Timestamp.fromDate(appointment.currentBookedDate),
       status: appointment.status,
+      specialistName: appointment.specialistName,
+      userName: appointment.userName,
+      specialistBio: appointment.specialistBio,
       rescheduleRequestedDate:
           appointment.rescheduleRequestedDate != null
               ? Timestamp.fromDate(appointment.rescheduleRequestedDate!)
@@ -64,6 +82,20 @@ class AppointmentsRepositoryImpl implements AppointmentsRepository {
     );
 
     return _dataSource.bookAppointment(appointment: model);
+  }
+
+  @override
+  Future<ResponseWrapper<void>> updateAppointmentStatus({
+    required String appointmentId,
+    DateTime? newBookedDate,
+    required AppointmentStatus newAppointmentStatus,
+  }) async {
+
+    return _dataSource.updateAppointmentStatus(
+      appointmentId: appointmentId,
+      newBookedDate: newBookedDate,
+      newAppointmentStatus: newAppointmentStatus.statusName,
+    );
   }
 
   @override
@@ -87,6 +119,8 @@ class AppointmentsRepositoryImpl implements AppointmentsRepository {
       createdAt: Timestamp.fromDate(
         appointmentActivityEntity.createdAt ?? DateTime.now(),
       ),
+      userName: appointmentActivityEntity.userName,
+      specialistName: appointmentActivityEntity.specialistName
     );
 
     return _dataSource.addAppointmentActivity(appointmentActivityModel: model);

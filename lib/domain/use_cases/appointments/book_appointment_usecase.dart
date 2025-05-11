@@ -21,6 +21,8 @@ class BookAppointmentUseCase {
             specialistId: appointment.specialistId,
             isAdminReason: false,
             status: appointment.status,
+            userName: appointment.userName,
+            specialistName: appointment.specialistName,
             oldBookedDate: appointment.currentBookedDate,
             currentBookedDate: appointment.currentBookedDate,
           ),

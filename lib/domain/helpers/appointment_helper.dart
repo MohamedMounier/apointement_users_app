@@ -1,5 +1,6 @@
 import 'package:appointment_users/domain/entities/appointment/appointment_entity.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class AppointmentsHelper {
   static List<String> getAvailableTimes({
@@ -32,4 +33,19 @@ debugPrint('All times ${allTimes}');
     }
     return times;
   }
+  /// Converts a string like "14:30" to a TimeOfDay object
+  static TimeOfDay timeOfDayFromString(String time) {
+    final parts = time.split(':');
+    final hour = int.parse(parts[0]);
+    final minute = int.parse(parts[1]);
+    return TimeOfDay(hour: hour, minute: minute);
+  }
+
+  /// Converts a TimeOfDay object to a string like "14:30"
+  static String stringFromTimeOfDay(TimeOfDay time) {
+    final hour = time.hour.toString().padLeft(2, '0');
+    final minute = time.minute.toString().padLeft(2, '0');
+    return '$hour:$minute';
+  }
+
 }

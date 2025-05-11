@@ -15,11 +15,29 @@ enum UserAppointmentsSteps {
   gettingUserAppointmentsSuccess,
   gettingUserAppointmentsError,
 }
+enum EditAppointmentSteps {
+  none,
+  isGettingAppointmentActivitiesLoading,
+  isGettingAppointmentActivitiesSuccess,
+  isGettingAppointmentActivitiesError,
+  isCancellingUserAppointmentsLoading,
+  isCancellingUserAppointmentsSuccess,
+  isCancellingUserAppointmentsError,
+  isGettingSpecialistAvailableTimeLoading,
+  isGettingSpecialistAvailableTimeSuccess,
+  isGettingSpecialistAvailableTimeError,
+  isReschedulingAppointmentTimeLoading,
+  isReschedulingAppointmentTimeSuccess,
+  isReschedulingAppointmentTimeError,
+  isTestGoBackAndRefresh,
+}
 enum AppointmentStatus {
   pending,
   confirmed,
   cancelled,
   pendingAvailability,
   underReview,
-  requestedReschedule,
+  rescheduled,
+  done,
+  noShow
 }

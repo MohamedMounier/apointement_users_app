@@ -13,6 +13,9 @@ class AppointmentModel {
   final String id;
   final String userId;
   final String specialistId;
+  final String userName;
+  final String specialistName;
+  final String? specialistBio;
   @JsonKey(name: 'current_booked_date')
   @TimestampConverter()
   final Timestamp currentBookedDate;
@@ -32,7 +35,10 @@ class AppointmentModel {
     required this.currentBookedDate,
     required this.status,
     required this.createdAt,
+    required this.userName,
+    required this.specialistName,
     this.rescheduleRequestedDate,
+    this.specialistBio,
   });
 
   factory AppointmentModel.fromJson(Map<String, dynamic> json) =>
@@ -46,6 +52,9 @@ class AppointmentModel {
     specialistId: specialistId,
     currentBookedDate: currentBookedDate.toDate(),
     status: status,
+    specialistBio: specialistBio,
+    specialistName: specialistName,
+    userName: userName,
     rescheduleRequestedDate: rescheduleRequestedDate?.toDate(),
     createdAt: createdAt.toDate(),
   );

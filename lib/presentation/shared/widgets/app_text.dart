@@ -9,12 +9,14 @@ class AppText extends StatelessWidget {
   final bool selectable;
   final double? fontSize;
   final FontWeight? fontWeight;
+  final Alignment? alignment;
   final Color? color;
 
   const AppText(
     this.text, {
-    Key? key,
+    super.key,
     this.style,
+    this.alignment,
     this.textAlign,
     this.maxLines,
     this.overflow,
@@ -22,7 +24,7 @@ class AppText extends StatelessWidget {
     this.fontSize,
     this.fontWeight,
     this.color,
-  }) : super(key: key);
+  });
 
   // Predefined styles
   factory AppText.headline(
@@ -127,20 +129,27 @@ class AppText extends StatelessWidget {
     );
 
     if (selectable) {
-      return SelectableText(
+      return Container(
+        alignment: alignment??AlignmentDirectional.centerStart,
+
+        child: SelectableText(
+          text,
+          style: effectiveStyle,
+          textAlign: textAlign,
+          maxLines: maxLines,
+        ),
+      );
+    }
+
+    return Container(
+      alignment: alignment??AlignmentDirectional.centerStart,
+      child: Text(
         text,
         style: effectiveStyle,
         textAlign: textAlign,
         maxLines: maxLines,
-      );
-    }
-
-    return Text(
-      text,
-      style: effectiveStyle,
-      textAlign: textAlign,
-      maxLines: maxLines,
-      overflow: overflow,
+        overflow: overflow,
+      ),
     );
   }
 }

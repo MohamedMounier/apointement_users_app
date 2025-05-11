@@ -7,7 +7,7 @@ class AppTheme {
   static ThemeData dark = DarkTheme.theme;
 
   // Helper methods to access theme
-  static ThemeData getTheme(bool isDark) => isDark ? dark : light;
+  static ThemeData getTheme(bool isLight) => isLight ? light : dark;
   //
   // // Add theme mode change listener
   // static final ValueNotifier<ThemeMode> themeNotifier =

@@ -3,6 +3,7 @@ import 'package:appointment_users/presentation/blocs/home/home_cubit.dart';
 import 'package:appointment_users/presentation/blocs/home/home_cubit.dart';
 import 'package:appointment_users/presentation/blocs/home/home_state.dart';
 import 'package:appointment_users/presentation/shared/widgets/custom_drop_down.dart';
+import 'package:appointment_users/presentation/shared/widgets/epic_drop_down.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,7 +25,7 @@ class _CategoryChoicesDropDownState extends State<CategoryChoicesDropDown> {
       selector: (state) =>
           state.chosenCategory!,
       builder: (context, state) {
-        return CustomDropDown<SpecializationCategoryEntity>(
+        return EpicCategoryDropdown<SpecializationCategoryEntity>(
           label: 'Choose Category',
           onChanged: (val) {
             context.read<HomeCubit>().chooseCategory(val);

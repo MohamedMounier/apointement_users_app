@@ -1,12 +1,16 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:appointment_users/core/utils/enums/app_enums.dart';
+import 'package:appointment_users/core/utils/resources/app_strings.dart';
+import 'package:appointment_users/di/di_container.dart';
 import 'package:appointment_users/presentation/blocs/home/home_cubit.dart';
 import 'package:appointment_users/presentation/blocs/home/home_state.dart';
 import 'package:appointment_users/presentation/blocs/ui_control/uicontrol_cubit.dart';
 import 'package:appointment_users/presentation/screens/home/nav_bar_screens/categories_and_specialists_nav_bar_screen.dart';
 import 'package:appointment_users/presentation/screens/home/nav_bar_screens/user_appointments_nav_bar_screen.dart';
 import 'package:appointment_users/presentation/shared/resources/app_colors.dart';
+import 'package:appointment_users/presentation/shared/widgets/app_text.dart';
 import 'package:appointment_users/presentation/shared/widgets/loading_lottie.dart';
+import 'package:appointment_users/router/screen_router_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -31,8 +35,8 @@ class HomeMobileScreen extends StatelessWidget {
         } else {
           return Scaffold(
             floatingActionButton: FloatingActionButton(
+              child: Icon(Icons.add),
               onPressed: () {},
-              //params
             ),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerDocked,
@@ -58,17 +62,30 @@ class HomeMobileScreen extends StatelessWidget {
               //other params
             ),
             appBar: AppBar(
-              title: const Text('Home Screen'),
+              title:  Text(fetchScreenTitleByIndex(state.currentIndex)),
               actions: [
-                IconButton(onPressed: (){
-                  context.read<UiControlCubit>().changeTheme();
-                }, icon: Icon(Icons.color_lens_outlined)),
                 IconButton(
-                  icon: const Icon(Icons.logout),
                   onPressed: () {
-                    context.read<HomeCubit>().logout();
-                    //diContainer<ScreenRouterHelper>().navigateToLogin();
+                    context.read<UiControlCubit>().changeTheme();
                   },
+                  icon: Icon(Icons.color_lens_outlined),
+                ),
+                Visibility(
+                  visible: context.read<HomeCubit>().state.currentUser?.name!=AppStrings.anonymous,
+                  replacement: TextButton(
+
+                    child: AppText('Login',style: TextStyle(decoration: TextDecoration.underline),),
+                    onPressed: () {
+                      diContainer<ScreenRouterHelper>().navigateToLogin();
+                    },
+                  ),
+                  child: IconButton(
+                    icon: const Icon(Icons.logout),
+                    onPressed: () {
+                      context.read<HomeCubit>().logout();
+                      //diContainer<ScreenRouterHelper>().navigateToLogin();
+                    },
+                  ),
                 ),
               ],
             ),
@@ -90,6 +107,19 @@ class HomeMobileScreen extends StatelessWidget {
       return Container(color: Colors.yellow);
     } else {
       return Container(color: Colors.grey);
+    }
+  }
+  fetchScreenTitleByIndex(index) {
+    if (index == 0) {
+      return 'Our Specialists';
+    }
+    if (index == 1) {
+      return "My Bookings";
+    }
+    if (index == 2) {
+      return "Profile";
+    } else {
+      return "Settings";
     }
   }
 }

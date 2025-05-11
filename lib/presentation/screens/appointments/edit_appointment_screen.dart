@@ -6,6 +6,8 @@ import 'package:appointment_users/presentation/blocs/appointments/edit_appointme
 import 'package:appointment_users/presentation/blocs/appointments/edit_appointment_state.dart';
 import 'package:appointment_users/presentation/blocs/appointments/user_appointments_cubit.dart';
 import 'package:appointment_users/presentation/blocs/home/home_cubit.dart';
+import 'package:appointment_users/presentation/shared/widgets/app_text.dart';
+import 'package:appointment_users/presentation/shared/widgets/app_text_field.dart';
 import 'package:appointment_users/presentation/shared/widgets/loading_lottie.dart';
 import 'package:appointment_users/router/app_router_helper.dart';
 import 'package:flutter/material.dart';
@@ -81,7 +83,7 @@ class _EditAppointmentScreenState extends State<EditAppointmentScreen> {
                   return Center(child: LoadingLottie(height: 100, width: 100));
                 } else {
                   if (state.currentAppointmentActivitiesList.isEmpty) {
-                    return ListView(children: [Text('No Data')]);
+                    return Center(child: Text('No Data'));
                   } else {
                     return SingleChildScrollView(
                       child: Column(
@@ -96,19 +98,21 @@ class _EditAppointmentScreenState extends State<EditAppointmentScreen> {
                                     state
                                         .currentAppointmentActivitiesList[index];
                                 return ListTile(
-                                  title: Text('${appointment.appointmentId}'),
-                                  subtitle: Text(
-                                    'Status ${appointment.status.statusName}',
+                                  title: AppText(
+                                    '${appointment.status}',
+                                    color: appointment.status.statusColor,
+                                  ),
+                                  subtitle: AppText(
+                                    'Creation Date :  ${DateFormat.yMMMEd().format(appointment.createdAt ?? appointment.currentBookedDate)}',
                                   ),
                                 );
                               },
                             ),
                           ),
-                          TextFormField(
+                          Divider(thickness: 6,),
+                          AppTextField(
                             controller: _reasonCtrl,
-                            decoration: InputDecoration(
-                              label: Text('Canceling Reason'),
-                            ),
+                            hintText: 'Canceling Reason',
                           ),
                           if (state.availableTimes?.isNotEmpty ?? false)
                             Container(
@@ -204,21 +208,32 @@ class _EditAppointmentScreenState extends State<EditAppointmentScreen> {
                                 ],
                               ),
                             ),
-                          ElevatedButton(
-                            onPressed: () {
-                              context
-                                  .read<EditAppointmentCubit>()
-                                  .cancelAppointment(reason: _reasonCtrl.text);
-                            },
-                            child: Text('Cancel'),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {
-                              context
-                                  .read<EditAppointmentCubit>()
-                                  .fetchAvailableTimes();
-                            },
-                            child: Text('Check Availability'),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    context
+                                        .read<EditAppointmentCubit>()
+                                        .cancelAppointment(
+                                          reason: _reasonCtrl.text,
+                                        );
+                                  },
+                                  child: Text('Cancel'),
+                                ),
+                              ),
+                              SizedBox(width: 20.w),
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    context
+                                        .read<EditAppointmentCubit>()
+                                        .fetchAvailableTimes();
+                                  },
+                                  child: Text('Reschedule Availability'),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),

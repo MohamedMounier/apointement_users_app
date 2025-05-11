@@ -1,12 +1,11 @@
-import 'dart:math';
-
 import 'package:appointment_users/core/utils/enums/app_enums.dart';
+import 'package:appointment_users/core/utils/resources/app_assets.dart';
 import 'package:appointment_users/di/di_container.dart';
 import 'package:appointment_users/presentation/blocs/home/home_cubit.dart';
 import 'package:appointment_users/presentation/blocs/home/home_state.dart';
+import 'package:appointment_users/presentation/screens/home/nav_bar_screens/widgets/specialist_card_widget.dart';
 import 'package:appointment_users/presentation/shared/widgets/app_text.dart';
 import 'package:appointment_users/router/screen_router_helper.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,8 +18,6 @@ class SpecialistsListView extends StatefulWidget {
 
 class _SpecialistsListViewState extends State<SpecialistsListView> {
   final ScrollController _scrollController = ScrollController();
-  final String selectedCategory = 'Dentist'; // example
-
 
   @override
   void initState() {
@@ -40,10 +37,9 @@ class _SpecialistsListViewState extends State<SpecialistsListView> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeCubit, HomeState>(
-      listener: (context,state){
-        if(state.userSteps==UserSteps.isFetchedCategories){
+      listener: (context, state) {
+        if (state.userSteps == UserSteps.isFetchedCategories) {
           context.read<HomeCubit>().loadMoreSpecialists();
-
         }
       },
       builder: (context, state) {
@@ -54,7 +50,7 @@ class _SpecialistsListViewState extends State<SpecialistsListView> {
         return ListView.builder(
           controller: _scrollController,
           itemCount:
-          state.specialists.length + (state.isLoadingSpecialists ? 1 : 0),
+              state.specialists.length + (state.isLoadingSpecialists ? 1 : 0),
           itemBuilder: (context, index) {
             if (index == state.specialists.length) {
               return const Padding(
@@ -64,14 +60,28 @@ class _SpecialistsListViewState extends State<SpecialistsListView> {
             }
 
             final specialist = state.specialists[index];
-            return ListTile(
-              leading: const Icon(Icons.person),
-              title: AppText(specialist.name),
-              subtitle: AppText(specialist.category),
-              trailing: IconButton(onPressed: (){
-                diContainer<ScreenRouterHelper>().navigateToBookAppointmentScreen(specialist: specialist);
-              }, icon: Icon(Icons.book)),
+            return SpecialistCardWidget(
+              specialist: specialist,
+              onBookPressed: (){
+
+                      diContainer<ScreenRouterHelper>()
+                          .navigateToBookAppointmentScreen(specialist: specialist);
+              },
             );
+            // return ListTile(
+            //   leading: const  CircleAvatar(
+            //     backgroundImage: AssetImage(AppImages.profileDemoImg),
+            //   ),
+            //   title: AppText(specialist.name),
+            //   subtitle: AppText(specialist.category),
+            //   trailing: IconButton(
+            //     onPressed: () {
+            //       diContainer<ScreenRouterHelper>()
+            //           .navigateToBookAppointmentScreen(specialist: specialist);
+            //     },
+            //     icon: Icon(Icons.book),
+            //   ),
+            // );
           },
         );
       },
@@ -84,6 +94,7 @@ class _SpecialistsListViewState extends State<SpecialistsListView> {
     super.dispose();
   }
 }
+
 /*
   Future<void> seedFakeSpecialistsData() async {
     final specialistsRef = diContainer<FirebaseFirestore>().collection('Specialists');

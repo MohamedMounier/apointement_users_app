@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
                 title: AppStrings.appName,
                 debugShowCheckedModeBanner: false,
                 theme: AppTheme.getTheme(state.isLightTheme),
-
+                themeMode: state.isLightTheme?ThemeMode.light:ThemeMode.dark,
                 navigatorKey: diContainer(),
                 onGenerateRoute: diContainer<AppRouter>().onGenerateRoutes,
                 initialRoute: diContainer<AppRouter>().fetchInitialRoute(),

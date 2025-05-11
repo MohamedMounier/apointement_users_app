@@ -1,16 +1,29 @@
-# appointment_users
+📱 Appointment Users App
+🚀 Features
+🔐 A - Authentication
+✅ Sign up using Firebase Auth by email and password
 
-Appointment Users App
+✅ Login using Firebase Auth by email and password
 
-## Getting Started
+🔒 Booking is available only when logged in
 
-This project is a starting point for a Flutter application.
+📅 B - Booking System
+📂 Getting specialists according to their category
 
-A few resources to get you started if this is your first Flutter project:
+📆 User can book an appointment from the available times
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+👁️‍🗨️ User can view their appointments
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+❌ User can cancel an appointment, but only before 2 hours of the current booking date
+
+🔄 User can reschedule their appointment, but only before 12 hours of the current booking date
+
+🧾 User can see activities done on their appointment like:
+
+First confirmed
+
+Then rescheduled
+
+Then canceled
+
+... and so on

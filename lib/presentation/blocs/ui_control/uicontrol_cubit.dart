@@ -19,6 +19,10 @@ class UiControlCubit extends Cubit<UiControlState> {
     emit(state.copyWith(snackBarMessage: message, isSnackBarVisible: true));
   }
 
+void changeTheme(){
+    emit(state.copyWith(isLightTheme: !state.isLightTheme,isSnackBarVisible: false,isLoading: false));
+
+}
 
 
 // Additional UI-related methods can be added as needed.

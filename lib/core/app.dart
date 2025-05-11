@@ -4,6 +4,7 @@ import 'package:appointment_users/di/di_container.dart';
 import 'package:appointment_users/presentation/blocs/appointments/user_appointments_cubit.dart';
 import 'package:appointment_users/presentation/blocs/home/home_cubit.dart';
 import 'package:appointment_users/presentation/blocs/ui_control/uicontrol_cubit.dart';
+import 'package:appointment_users/presentation/shared/resources/themes/app_theme.dart';
 import 'package:appointment_users/router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +20,18 @@ class MyApp extends StatelessWidget {
           lazy: true,
           create: (_) => UiControlCubit(),
         ),
-        BlocProvider<HomeCubit>(lazy: true, create: (_) => HomeCubit(diContainer(),diContainer(),diContainer(),diContainer(),diContainer(),diContainer())..getUserBySavedLocalUid()),
+        BlocProvider<HomeCubit>(
+          lazy: true,
+          create:
+              (_) => HomeCubit(
+                diContainer(),
+                diContainer(),
+                diContainer(),
+                diContainer(),
+                diContainer(),
+                diContainer(),
+              )..getUserBySavedLocalUid(),
+        ),
         BlocProvider<UserAppointmentsCubit>(
           lazy: true,
           create: (_) => UserAppointmentsCubit(diContainer()),
@@ -27,14 +39,21 @@ class MyApp extends StatelessWidget {
       ],
       child: ResponsiveLayout.builder(
         builder: (context, child) {
-          return MaterialApp(
-            title: AppStrings.appName,
-            debugShowCheckedModeBanner: false,
+          return BlocBuilder<UiControlCubit, UiControlState>(
+            buildWhen:
+                (previous, current) =>
+                    previous.isLightTheme != current.isLightTheme,
+            builder: (context, state) {
+              return MaterialApp(
+                title: AppStrings.appName,
+                debugShowCheckedModeBanner: false,
+                theme: AppTheme.getTheme(state.isLightTheme),
 
-            themeMode: ThemeMode.system,
-            navigatorKey: diContainer(),
-            onGenerateRoute: diContainer<AppRouter>().onGenerateRoutes,
-            initialRoute: diContainer<AppRouter>().fetchInitialRoute(),
+                navigatorKey: diContainer(),
+                onGenerateRoute: diContainer<AppRouter>().onGenerateRoutes,
+                initialRoute: diContainer<AppRouter>().fetchInitialRoute(),
+              );
+            },
           );
         },
       ),

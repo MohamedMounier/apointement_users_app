@@ -2,7 +2,7 @@ import 'package:appointment_users/domain/entities/specialization_category_entity
 import 'package:appointment_users/presentation/blocs/home/home_cubit.dart';
 import 'package:appointment_users/presentation/blocs/home/home_cubit.dart';
 import 'package:appointment_users/presentation/blocs/home/home_state.dart';
-import 'package:appointment_users/presentation/widgets/custom_drop_down.dart';
+import 'package:appointment_users/presentation/shared/widgets/custom_drop_down.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

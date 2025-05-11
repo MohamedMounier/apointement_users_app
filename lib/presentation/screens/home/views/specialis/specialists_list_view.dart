@@ -4,6 +4,7 @@ import 'package:appointment_users/core/utils/enums/app_enums.dart';
 import 'package:appointment_users/di/di_container.dart';
 import 'package:appointment_users/presentation/blocs/home/home_cubit.dart';
 import 'package:appointment_users/presentation/blocs/home/home_state.dart';
+import 'package:appointment_users/presentation/shared/widgets/app_text.dart';
 import 'package:appointment_users/router/screen_router_helper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -38,46 +39,42 @@ class _SpecialistsListViewState extends State<SpecialistsListView> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.yellow,
+    return BlocConsumer<HomeCubit, HomeState>(
+      listener: (context,state){
+        if(state.userSteps==UserSteps.isFetchedCategories){
+          context.read<HomeCubit>().loadMoreSpecialists();
 
-      child: BlocConsumer<HomeCubit, HomeState>(
-        listener: (context,state){
-          if(state.userSteps==UserSteps.isFetchedCategories){
-            context.read<HomeCubit>().loadMoreSpecialists();
+        }
+      },
+      builder: (context, state) {
+        if (state.isLoading && state.specialists.isEmpty) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-          }
-        },
-        builder: (context, state) {
-          if (state.isLoading && state.specialists.isEmpty) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          return ListView.builder(
-            controller: _scrollController,
-            itemCount:
-                state.specialists.length + (state.isLoadingSpecialists ? 1 : 0),
-            itemBuilder: (context, index) {
-              if (index == state.specialists.length) {
-                return const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Center(child: CircularProgressIndicator()),
-                );
-              }
-
-              final specialist = state.specialists[index];
-              return ListTile(
-                leading: const Icon(Icons.person),
-                title: Text(specialist.name),
-                subtitle: Text(specialist.category),
-                trailing: IconButton(onPressed: (){
-                  diContainer<ScreenRouterHelper>().navigateToBookAppointmentScreen(specialist: specialist);
-                }, icon: Icon(Icons.book)),
+        return ListView.builder(
+          controller: _scrollController,
+          itemCount:
+          state.specialists.length + (state.isLoadingSpecialists ? 1 : 0),
+          itemBuilder: (context, index) {
+            if (index == state.specialists.length) {
+              return const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Center(child: CircularProgressIndicator()),
               );
-            },
-          );
-        },
-      ),
+            }
+
+            final specialist = state.specialists[index];
+            return ListTile(
+              leading: const Icon(Icons.person),
+              title: AppText(specialist.name),
+              subtitle: AppText(specialist.category),
+              trailing: IconButton(onPressed: (){
+                diContainer<ScreenRouterHelper>().navigateToBookAppointmentScreen(specialist: specialist);
+              }, icon: Icon(Icons.book)),
+            );
+          },
+        );
+      },
     );
   }
 

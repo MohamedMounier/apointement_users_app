@@ -26,6 +26,8 @@ AppointmentActivityModel _$AppointmentActivityModelFromJson(
   addedByType: const UserTypesJsonConverter().fromJson(
     json['addedByType'] as Object,
   ),
+  userName: json['userName'] as String,
+  specialistName: json['specialistName'] as String,
   createdAt: _$JsonConverterFromJson<Object, Timestamp>(
     json['created_at'],
     const TimestampConverter().fromJson,
@@ -39,6 +41,8 @@ Map<String, dynamic> _$AppointmentActivityModelToJson(
   'appointment_id': instance.appointmentId,
   'userId': instance.userId,
   'specialistId': instance.specialistId,
+  'specialistName': instance.specialistName,
+  'userName': instance.userName,
   'addedByType': const UserTypesJsonConverter().toJson(instance.addedByType),
   'reason': instance.reason,
   'is_admin_reason': instance.isAdminReason,

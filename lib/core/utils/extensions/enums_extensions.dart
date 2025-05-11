@@ -30,8 +30,12 @@ extension AppointmentStatusExtension on AppointmentStatus {
       case AppointmentStatus.underReview:
         return 'Under Review';
 
-      case AppointmentStatus.requestedReschedule:
-        return 'Reschedule Requested';
+      case AppointmentStatus.rescheduled:
+        return 'Rescheduled';
+      case AppointmentStatus.done:
+        return 'Done';
+      case AppointmentStatus.noShow:
+        return 'No Show';
     }
   }
 }

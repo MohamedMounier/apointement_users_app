@@ -14,6 +14,9 @@ class AppointmentActivityModel {
   final String appointmentId;
   final String userId;
   final String specialistId;
+  final String specialistName;
+  final String userName;
+
   @UserTypesJsonConverter()
   final UserTypes addedByType;
   final String? reason;
@@ -40,6 +43,8 @@ class AppointmentActivityModel {
     required this.oldBookedDate,
     required this.currentBookedDate,
     required this.addedByType,
+    required this.userName,
+    required this.specialistName,
     this.createdAt,
     this.reason,
   });
@@ -59,5 +64,7 @@ class AppointmentActivityModel {
     currentBookedDate: currentBookedDate.toDate(),
     createdAt: createdAt?.toDate(),
     reason: reason,
+    specialistName: specialistName,
+    userName: userName
   );
 }

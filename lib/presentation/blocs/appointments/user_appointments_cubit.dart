@@ -19,6 +19,8 @@ class UserAppointmentsCubit extends Cubit<UserAppointmentsState> {
     : super(const UserAppointmentsState());
 
   Future<void> initData({required String userId}) async {
+    debugPrint('Called UserAppointmentsCubit initData');
+
     emit(
       state.copyWith(
         step: UserAppointmentsSteps.gettingUserAppointmentsLoading,

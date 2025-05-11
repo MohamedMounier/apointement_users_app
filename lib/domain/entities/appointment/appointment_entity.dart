@@ -4,6 +4,9 @@ class AppointmentEntity {
   final String id;
   final String userId;
   final String specialistId;
+  final String specialistName;
+  final String userName;
+  final String? specialistBio;
   final AppointmentStatus status;
   final DateTime currentBookedDate;
 
@@ -17,32 +20,48 @@ class AppointmentEntity {
     required this.status,
     required this.currentBookedDate,
     required this.createdAt,
+    required this.specialistName,
+    required this.userName,
 
     this.rescheduleRequestedDate,
+    this.specialistBio,
   });
 
   bool get isCancellable =>
       status == AppointmentStatus.confirmed &&
       currentBookedDate.difference(DateTime.now()).inHours >= 2;
-
+  bool get isAbleToReschedule =>
+      canRequestReschedule&&
+          currentBookedDate.difference(DateTime.now()).inHours >= 12;
   bool get canRequestReschedule =>
       status == AppointmentStatus.confirmed ||
-      status == AppointmentStatus.pending;
+      status == AppointmentStatus.pending||status==AppointmentStatus.rescheduled;
 
-  String get statusLabel {
-    switch (status) {
-      case AppointmentStatus.pending:
-        return 'Pending';
-      case AppointmentStatus.confirmed:
-        return 'Confirmed';
-      case AppointmentStatus.cancelled:
-        return 'Cancelled';
-      case AppointmentStatus.underReview:
-        return 'Under Review';
-      case AppointmentStatus.pendingAvailability:
-        return 'Pending Availability';
-      case AppointmentStatus.requestedReschedule:
-        return 'Reschedule Requested';
-    }
+
+
+  AppointmentEntity copyWith({
+    String? id,
+    String? userId,
+    String? specialistId,
+    String? specialistName,
+    String? userName,
+    String? specialistBio,
+    AppointmentStatus? status,
+    DateTime? currentBookedDate,
+    DateTime? rescheduleRequestedDate,
+    DateTime? createdAt,
+  }) {
+    return AppointmentEntity(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      specialistId: specialistId ?? this.specialistId,
+      specialistName: specialistName ?? this.specialistName,
+      userName: userName ?? this.userName,
+      specialistBio: specialistBio ?? this.specialistBio,
+      status: status ?? this.status,
+      currentBookedDate: currentBookedDate ?? this.currentBookedDate,
+      rescheduleRequestedDate: rescheduleRequestedDate ?? this.rescheduleRequestedDate,
+      createdAt: createdAt ?? this.createdAt,
+    );
   }
 }

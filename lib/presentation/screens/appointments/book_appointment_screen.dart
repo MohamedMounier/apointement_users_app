@@ -98,11 +98,18 @@ class AppointmentBookingScreen extends StatelessWidget {
                           ? () => context
                               .read<BookAppointmentCubit>()
                               .bookAppointment(
-                                context
-                                    .read<HomeCubit>()
-                                    .state
-                                    .currentUser!
-                                    .uid,
+                                userId:
+                                    context
+                                        .read<HomeCubit>()
+                                        .state
+                                        .currentUser!
+                                        .uid,
+                                userName:
+                                    context
+                                        .read<HomeCubit>()
+                                        .state
+                                        .currentUser!
+                                        .name,
                               )
                           : null,
                   child: const Text("Confirm Appointment"),

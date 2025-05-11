@@ -3,7 +3,9 @@ import 'package:appointment_users/core/utils/enums/app_enums.dart';
 class AppointmentActivityEntity {
   final String appointmentId;
   final String userId;
+  final String userName;
   final String specialistId;
+  final String specialistName;
   final String? reason;
   final bool isAdminReason;
   final DateTime currentBookedDate;
@@ -19,6 +21,8 @@ class AppointmentActivityEntity {
     required this.status,
     required this.oldBookedDate,
     required this.currentBookedDate,
+    required this.specialistName,
+    required this.userName,
     this.createdAt,
     this.reason,
   });

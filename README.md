@@ -6,6 +6,7 @@ _______________
 
 
 🔐 A - Authentication
+
 ✅ Sign up using Firebase Auth by email and password
 
 ✅ Login using Firebase Auth by email and password
@@ -13,6 +14,7 @@ _______________
 🔒 Booking is available only when logged in
 
 📅 B - Booking System
+
 📂 Getting specialists according to their category
 
 📆 User can book an appointment from the available times

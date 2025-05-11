@@ -1,4 +1,4 @@
-import 'package:appointment_users/data/models/enums/models_enums.dart';
+import 'package:appointment_users/core/utils/enums/app_enums.dart';
 
 class AppointmentActivityEntity {
   final String appointmentId;
@@ -10,7 +10,6 @@ class AppointmentActivityEntity {
   final DateTime oldBookedDate;
   final AppointmentStatus status;
   final DateTime? createdAt;
-
 
   AppointmentActivityEntity({
     required this.appointmentId,
@@ -31,5 +30,4 @@ class AppointmentActivityEntity {
   bool get canRequestReschedule =>
       status == AppointmentStatus.confirmed ||
       status == AppointmentStatus.pending;
-
 }

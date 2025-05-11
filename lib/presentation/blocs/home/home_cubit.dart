@@ -71,6 +71,7 @@ class HomeCubit extends Cubit<HomeState> {
       specialists: [],
       lastSpecialistDoc: null,
       hasMoreSpecialists: true,
+      requestState: RequestState.loading
     ));
 
     final result = await _getSpecialistsByCategory(
@@ -79,13 +80,14 @@ class HomeCubit extends Cubit<HomeState> {
 
     result.when(
       success: (page) {
-        debugPrint('Result loadInitialSpecialists Success and data is ${page.data}');
+        debugPrint('Result loadInitialSpecialists Success and data is ${page.data} Current user is ${state.currentUser}');
 
         emit(state.copyWith(
           specialists: page.data,
           lastSpecialistDoc: page.lastDoc,
           hasMoreSpecialists: page.data.length == ConstFirebaseData.itemsCountPerPage,
           userSteps: UserSteps.isLoadedSpecialists,
+          requestState: RequestState.success,
           isLoadingSpecialists: false,
         ));
       },
@@ -95,6 +97,7 @@ class HomeCubit extends Cubit<HomeState> {
           errorMessage: err.message,
           isLoadingSpecialists: false,
           specialists: [],
+          requestState: RequestState.error,
           userSteps: UserSteps.isLoadedSpecialists,
 
         ));
@@ -102,7 +105,7 @@ class HomeCubit extends Cubit<HomeState> {
     );
   }
   Future<void> getUserBySavedLocalUid() async {
-    emit(state.copyWith(requestState: RequestState.loading));
+    emit(state.copyWith(requestState: RequestState.loading,currentUser: null));
 
     final localResult = await _getUserIdUseCase();
     localResult.when(
@@ -192,7 +195,6 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void setUser(UserEntity user) {
-    emit(state.copyWith(requestState: RequestState.loading));
     emit(
       state.copyWith(
         currentUser: user,
@@ -277,5 +279,8 @@ class HomeCubit extends Cubit<HomeState> {
       requestState: RequestState.none,
     ));
     loadInitialSpecialists(category.name);
+  }
+  void changeCurrentScreenNavIndex(int index){
+    emit(state.copyWith(isLoading: false,userSteps: UserSteps.none,requestState: RequestState.none,currentIndex:index));
   }
 }

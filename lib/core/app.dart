@@ -1,6 +1,7 @@
 import 'package:appointment_users/core/utils/resources/app_strings.dart';
 import 'package:appointment_users/core/utils/responsive/responsive_layout.dart';
 import 'package:appointment_users/di/di_container.dart';
+import 'package:appointment_users/presentation/blocs/appointments/user_appointments_cubit.dart';
 import 'package:appointment_users/presentation/blocs/home/home_cubit.dart';
 import 'package:appointment_users/presentation/blocs/ui_control/uicontrol_cubit.dart';
 import 'package:appointment_users/router/app_router.dart';
@@ -19,6 +20,10 @@ class MyApp extends StatelessWidget {
           create: (_) => UiControlCubit(),
         ),
         BlocProvider<HomeCubit>(lazy: true, create: (_) => HomeCubit(diContainer(),diContainer(),diContainer(),diContainer(),diContainer(),diContainer())..getUserBySavedLocalUid()),
+        // BlocProvider<UserAppointmentsCubit>(
+        //   lazy: true,
+        //   create: (_) => UserAppointmentsCubit(diContainer()),
+        // ),
       ],
       child: ResponsiveLayout.builder(
         builder: (context, child) {

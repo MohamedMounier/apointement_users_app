@@ -1,4 +1,3 @@
-import 'package:appointment_users/data/models/enums/models_enums.dart';
 import 'package:appointment_users/domain/entities/appointment/appointment_entity.dart';
 import 'package:appointment_users/domain/entities/specialist_entity.dart';
 import 'package:appointment_users/domain/use_cases/appointments/book_appointment_usecase.dart';

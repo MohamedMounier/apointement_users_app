@@ -1,5 +1,6 @@
+import 'package:appointment_users/core/converters/appointment_state_json_converter.dart';
 import 'package:appointment_users/core/converters/timestamp_converter.dart';
-import 'package:appointment_users/data/models/enums/models_enums.dart';
+import 'package:appointment_users/core/utils/enums/app_enums.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -15,6 +16,7 @@ class AppointmentModel {
   @JsonKey(name: 'current_booked_date')
   @TimestampConverter()
   final Timestamp currentBookedDate;
+  @AppointmentStatusJsonConverter()
   final AppointmentStatus status;
   @JsonKey(name: 'reschedule_requested_date')
   @TimestampConverter()

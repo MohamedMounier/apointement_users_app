@@ -22,6 +22,7 @@ abstract class HomeState with _$HomeState {
     @Default([]) List<SpecializationCategoryEntity> categories,
     SpecializationCategoryEntity? chosenCategory,
     @Default(false) bool isLoadingCategories,
+    @Default(0) int currentIndex,
 
     // Specialists & Pagination
     @Default([]) List<SpecialistEntity> specialists,

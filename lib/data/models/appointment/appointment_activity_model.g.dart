@@ -10,16 +10,21 @@ AppointmentActivityModel _$AppointmentActivityModelFromJson(
   Map<String, dynamic> json,
 ) => AppointmentActivityModel(
   appointmentId: json['appointment_id'] as String,
-  userId: json['user_id'] as String,
-  specialistId: json['specialist_id'] as String,
+  userId: json['userId'] as String,
+  specialistId: json['specialistId'] as String,
   isAdminReason: json['is_admin_reason'] as bool,
-  status: $enumDecode(_$AppointmentStatusEnumMap, json['status']),
+  status: const AppointmentStatusJsonConverter().fromJson(
+    json['status'] as Object,
+  ),
   oldBookedDate: _$JsonConverterFromJson<Object, Timestamp>(
     json['old_booked_date'],
     const TimestampConverter().fromJson,
   ),
   currentBookedDate: const TimestampConverter().fromJson(
     json['current_booked_date'] as Object,
+  ),
+  addedByType: const UserTypesJsonConverter().fromJson(
+    json['addedByType'] as Object,
   ),
   createdAt: _$JsonConverterFromJson<Object, Timestamp>(
     json['created_at'],
@@ -32,8 +37,9 @@ Map<String, dynamic> _$AppointmentActivityModelToJson(
   AppointmentActivityModel instance,
 ) => <String, dynamic>{
   'appointment_id': instance.appointmentId,
-  'user_id': instance.userId,
-  'specialist_id': instance.specialistId,
+  'userId': instance.userId,
+  'specialistId': instance.specialistId,
+  'addedByType': const UserTypesJsonConverter().toJson(instance.addedByType),
   'reason': instance.reason,
   'is_admin_reason': instance.isAdminReason,
   'current_booked_date': const TimestampConverter().toJson(
@@ -43,20 +49,11 @@ Map<String, dynamic> _$AppointmentActivityModelToJson(
     instance.oldBookedDate,
     const TimestampConverter().toJson,
   ),
-  'status': _$AppointmentStatusEnumMap[instance.status]!,
+  'status': const AppointmentStatusJsonConverter().toJson(instance.status),
   'created_at': _$JsonConverterToJson<Object, Timestamp>(
     instance.createdAt,
     const TimestampConverter().toJson,
   ),
-};
-
-const _$AppointmentStatusEnumMap = {
-  AppointmentStatus.pending: 'pending',
-  AppointmentStatus.confirmed: 'confirmed',
-  AppointmentStatus.cancelled: 'cancelled',
-  AppointmentStatus.pendingAvailability: 'pendingAvailability',
-  AppointmentStatus.underReview: 'underReview',
-  AppointmentStatus.requestedReschedule: 'requestedReschedule',
 };
 
 Value? _$JsonConverterFromJson<Json, Value>(

@@ -9,8 +9,9 @@ import 'package:injectable/injectable.dart';
 
 abstract class AppointmentsDataSource {
   Future<ResponseWrapper<List<AppointmentModel>>>
+  fetchAppointmentsForUser({required String userId});
+  Future<ResponseWrapper<List<AppointmentModel>>>
   fetchAppointmentsForSpecialist({required String specialistId});
-
   Future<ResponseWrapper<void>> bookAppointment({
     required AppointmentModel appointment,
   });
@@ -52,7 +53,32 @@ class AppointmentsDataSourceImpl implements AppointmentsDataSource {
       return ResponseWrapper.failure(LocalErrorModel(message: e.toString()));
     }
   }
+  @override
+  Future<ResponseWrapper<List<AppointmentModel>>>
+  fetchAppointmentsForUser({required String userId}) async {
+    try {
+      final querySnapshot =
+      await _firestore
+          .collection(ConstFirebaseData.appointmentsCollection)
+          .where('userId', isEqualTo: userId)
+          .get();
+      List<AppointmentModel> appointments = [];
 
+      if (querySnapshot.docs.isNotEmpty) {
+        appointments =
+            querySnapshot.docs
+                .map((doc) => AppointmentModel.fromJson(doc.data()))
+                .toList();
+      }
+      return ResponseWrapper.success(appointments);
+    } catch (e) {
+      debugPrint(
+        'Current Fetched Appointments Data source error ${e.toString()} ',
+      );
+      rethrow;
+      return ResponseWrapper.failure(LocalErrorModel(message: e.toString()));
+    }
+  }
   @override
   Future<ResponseWrapper<void>> bookAppointment({
     required AppointmentModel appointment,

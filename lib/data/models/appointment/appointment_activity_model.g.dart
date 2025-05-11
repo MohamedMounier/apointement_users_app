@@ -10,7 +10,7 @@ AppointmentActivityModel _$AppointmentActivityModelFromJson(
   Map<String, dynamic> json,
 ) => AppointmentActivityModel(
   appointmentId: json['appointment_id'] as String,
-  userId: json['user_id'] as String,
+  userId: json['userId'] as String,
   specialistId: json['specialistId'] as String,
   isAdminReason: json['is_admin_reason'] as bool,
   status: const AppointmentStatusJsonConverter().fromJson(
@@ -37,7 +37,7 @@ Map<String, dynamic> _$AppointmentActivityModelToJson(
   AppointmentActivityModel instance,
 ) => <String, dynamic>{
   'appointment_id': instance.appointmentId,
-  'user_id': instance.userId,
+  'userId': instance.userId,
   'specialistId': instance.specialistId,
   'addedByType': const UserTypesJsonConverter().toJson(instance.addedByType),
   'reason': instance.reason,

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class AppColors{
   static const Color notificationBackgroundColor = Color(0x00ffffff);
   static const Color notificationTextColor = Color(0xFF000000);
-  static Color primary = const Color(0xfff2f8f6);
+  static Color primary = const Color(0xff48047e);
+  static Color navBarWaveColor = const Color(0xffca90f8);
   //static Color primary = const Color(0xFF4880FF);
   static Color blackColor = const Color(0xFF202224);
 

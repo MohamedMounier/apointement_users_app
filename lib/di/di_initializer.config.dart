@@ -39,6 +39,8 @@ import 'package:appointment_users/domain/repository/specialists/specialists_repo
     as _i529;
 import 'package:appointment_users/domain/use_cases/appointments/book_appointment_usecase.dart'
     as _i1005;
+import 'package:appointment_users/domain/use_cases/appointments/get_appointments_for_user_use_case.dart'
+    as _i767;
 import 'package:appointment_users/domain/use_cases/appointments/get_available_times_use_case.dart'
     as _i1004;
 import 'package:appointment_users/domain/use_cases/auth/delete_user_id_usecase.dart'
@@ -61,6 +63,8 @@ import 'package:appointment_users/domain/use_cases/specialists/get_specializatio
     as _i707;
 import 'package:appointment_users/presentation/blocs/appointments/book_appointment_cubit.dart'
     as _i368;
+import 'package:appointment_users/presentation/blocs/appointments/user_appointments_cubit.dart'
+    as _i671;
 import 'package:appointment_users/presentation/blocs/auth/auth_cubit.dart'
     as _i910;
 import 'package:appointment_users/presentation/blocs/home/home_cubit.dart'
@@ -170,6 +174,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i1004.GetAvailableTimesUseCase>(
       () => _i1004.GetAvailableTimesUseCase(gh<_i980.AppointmentsRepository>()),
     );
+    gh.lazySingleton<_i767.GetAppointmentForUserUseCase>(
+      () => _i767.GetAppointmentForUserUseCase(
+        gh<_i980.AppointmentsRepository>(),
+      ),
+    );
     gh.factory<_i131.HomeCubit>(
       () => _i131.HomeCubit(
         gh<_i105.SignOutUseCase>(),
@@ -179,6 +188,10 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i111.GetSpecialistsByCategoryUseCase>(),
         gh<_i707.GetSpecializationCategoriesUseCase>(),
       ),
+    );
+    gh.factory<_i671.UserAppointmentsCubit>(
+      () =>
+          _i671.UserAppointmentsCubit(gh<_i767.GetAppointmentForUserUseCase>()),
     );
     gh.factory<_i368.BookAppointmentCubit>(
       () => _i368.BookAppointmentCubit(

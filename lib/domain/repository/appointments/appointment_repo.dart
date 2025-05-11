@@ -8,7 +8,9 @@ abstract class AppointmentsRepository {
   Future<ResponseWrapper<List<AppointmentEntity>>> getAppointmentsForSpecialist(
     String specialistId,
   );
-
+  Future<ResponseWrapper<List<AppointmentEntity>>> getAppointmentsForUser(
+      String userId
+      );
   Future<ResponseWrapper<void>> bookAppointment(AppointmentEntity appointment);
 
   Future<ResponseWrapper<void>> addAppointmentActivity({

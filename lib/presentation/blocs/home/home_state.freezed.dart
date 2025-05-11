@@ -27,7 +27,8 @@ mixin _$HomeState {
       throw _privateConstructorUsedError;
   SpecializationCategoryEntity? get chosenCategory =>
       throw _privateConstructorUsedError;
-  bool get isLoadingCategories =>
+  bool get isLoadingCategories => throw _privateConstructorUsedError;
+  int get currentIndex =>
       throw _privateConstructorUsedError; // Specialists & Pagination
   List<SpecialistEntity> get specialists => throw _privateConstructorUsedError;
   DocumentSnapshot<Object?>? get lastSpecialistDoc =>
@@ -56,6 +57,7 @@ abstract class $HomeStateCopyWith<$Res> {
     List<SpecializationCategoryEntity> categories,
     SpecializationCategoryEntity? chosenCategory,
     bool isLoadingCategories,
+    int currentIndex,
     List<SpecialistEntity> specialists,
     DocumentSnapshot<Object?>? lastSpecialistDoc,
     bool hasMoreSpecialists,
@@ -86,6 +88,7 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? categories = null,
     Object? chosenCategory = freezed,
     Object? isLoadingCategories = null,
+    Object? currentIndex = null,
     Object? specialists = null,
     Object? lastSpecialistDoc = freezed,
     Object? hasMoreSpecialists = null,
@@ -133,6 +136,11 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
                     ? _value.isLoadingCategories
                     : isLoadingCategories // ignore: cast_nullable_to_non_nullable
                         as bool,
+            currentIndex:
+                null == currentIndex
+                    ? _value.currentIndex
+                    : currentIndex // ignore: cast_nullable_to_non_nullable
+                        as int,
             specialists:
                 null == specialists
                     ? _value.specialists
@@ -177,6 +185,7 @@ abstract class _$$HomeStateImplCopyWith<$Res>
     List<SpecializationCategoryEntity> categories,
     SpecializationCategoryEntity? chosenCategory,
     bool isLoadingCategories,
+    int currentIndex,
     List<SpecialistEntity> specialists,
     DocumentSnapshot<Object?>? lastSpecialistDoc,
     bool hasMoreSpecialists,
@@ -206,6 +215,7 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? categories = null,
     Object? chosenCategory = freezed,
     Object? isLoadingCategories = null,
+    Object? currentIndex = null,
     Object? specialists = null,
     Object? lastSpecialistDoc = freezed,
     Object? hasMoreSpecialists = null,
@@ -253,6 +263,11 @@ class __$$HomeStateImplCopyWithImpl<$Res>
                 ? _value.isLoadingCategories
                 : isLoadingCategories // ignore: cast_nullable_to_non_nullable
                     as bool,
+        currentIndex:
+            null == currentIndex
+                ? _value.currentIndex
+                : currentIndex // ignore: cast_nullable_to_non_nullable
+                    as int,
         specialists:
             null == specialists
                 ? _value._specialists
@@ -290,6 +305,7 @@ class _$HomeStateImpl implements _HomeState {
     final List<SpecializationCategoryEntity> categories = const [],
     this.chosenCategory,
     this.isLoadingCategories = false,
+    this.currentIndex = 0,
     final List<SpecialistEntity> specialists = const [],
     this.lastSpecialistDoc,
     this.hasMoreSpecialists = false,
@@ -324,6 +340,9 @@ class _$HomeStateImpl implements _HomeState {
   @override
   @JsonKey()
   final bool isLoadingCategories;
+  @override
+  @JsonKey()
+  final int currentIndex;
   // Specialists & Pagination
   final List<SpecialistEntity> _specialists;
   // Specialists & Pagination
@@ -346,7 +365,7 @@ class _$HomeStateImpl implements _HomeState {
 
   @override
   String toString() {
-    return 'HomeState(currentUser: $currentUser, isLoading: $isLoading, errorMessage: $errorMessage, requestState: $requestState, userSteps: $userSteps, categories: $categories, chosenCategory: $chosenCategory, isLoadingCategories: $isLoadingCategories, specialists: $specialists, lastSpecialistDoc: $lastSpecialistDoc, hasMoreSpecialists: $hasMoreSpecialists, isLoadingSpecialists: $isLoadingSpecialists)';
+    return 'HomeState(currentUser: $currentUser, isLoading: $isLoading, errorMessage: $errorMessage, requestState: $requestState, userSteps: $userSteps, categories: $categories, chosenCategory: $chosenCategory, isLoadingCategories: $isLoadingCategories, currentIndex: $currentIndex, specialists: $specialists, lastSpecialistDoc: $lastSpecialistDoc, hasMoreSpecialists: $hasMoreSpecialists, isLoadingSpecialists: $isLoadingSpecialists)';
   }
 
   @override
@@ -372,6 +391,8 @@ class _$HomeStateImpl implements _HomeState {
                 other.chosenCategory == chosenCategory) &&
             (identical(other.isLoadingCategories, isLoadingCategories) ||
                 other.isLoadingCategories == isLoadingCategories) &&
+            (identical(other.currentIndex, currentIndex) ||
+                other.currentIndex == currentIndex) &&
             const DeepCollectionEquality().equals(
               other._specialists,
               _specialists,
@@ -395,6 +416,7 @@ class _$HomeStateImpl implements _HomeState {
     const DeepCollectionEquality().hash(_categories),
     chosenCategory,
     isLoadingCategories,
+    currentIndex,
     const DeepCollectionEquality().hash(_specialists),
     lastSpecialistDoc,
     hasMoreSpecialists,
@@ -420,6 +442,7 @@ abstract class _HomeState implements HomeState {
     final List<SpecializationCategoryEntity> categories,
     final SpecializationCategoryEntity? chosenCategory,
     final bool isLoadingCategories,
+    final int currentIndex,
     final List<SpecialistEntity> specialists,
     final DocumentSnapshot<Object?>? lastSpecialistDoc,
     final bool hasMoreSpecialists,
@@ -441,7 +464,9 @@ abstract class _HomeState implements HomeState {
   @override
   SpecializationCategoryEntity? get chosenCategory;
   @override
-  bool get isLoadingCategories; // Specialists & Pagination
+  bool get isLoadingCategories;
+  @override
+  int get currentIndex; // Specialists & Pagination
   @override
   List<SpecialistEntity> get specialists;
   @override

@@ -1,90 +1,91 @@
+import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:appointment_users/core/utils/enums/app_enums.dart';
-import 'package:appointment_users/di/di_container.dart';
 import 'package:appointment_users/presentation/blocs/home/home_cubit.dart';
 import 'package:appointment_users/presentation/blocs/home/home_state.dart';
-import 'package:appointment_users/presentation/screens/home/views/specialis/category_choices_drop_down.dart';
-import 'package:appointment_users/presentation/screens/home/views/specialis/specialists_list_view.dart';
+import 'package:appointment_users/presentation/screens/home/nav_bar_screens/categories_and_specialists_nav_bar_screen.dart';
+import 'package:appointment_users/presentation/screens/home/nav_bar_screens/user_appointments_nav_bar_screen.dart';
+import 'package:appointment_users/presentation/shared/resources/app_colors.dart';
 import 'package:appointment_users/presentation/widgets/loading_lottie.dart';
-import 'package:appointment_users/router/screen_router_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class HomeMobileScreen extends StatefulWidget {
+class HomeMobileScreen extends StatelessWidget {
   const HomeMobileScreen({super.key});
 
   @override
-  State<HomeMobileScreen> createState() => _HomeMobileScreenState();
-}
-
-class _HomeMobileScreenState extends State<HomeMobileScreen> {
-  @override
-  void initState() {
-    context.read<HomeCubit>().getCategories();
-    super.initState();
-  }
-  @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeCubit, HomeState>(
-      listener: (context, state) {
-        if((state.requestState==RequestState.success)&&(state.userSteps==UserSteps.isUserLoggedOut)){
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Logged Out Successfully')));
-
+    return BlocBuilder<HomeCubit, HomeState>(
+      builder: (context, state) {
+        debugPrint(
+          'Current State Request State ${context.read<HomeCubit>().state.requestState} and current user ${context.read<HomeCubit>().state.currentUser} And Current Category${context.read<HomeCubit>().state.chosenCategory?.name}',
+        );
+        if ((context.read<HomeCubit>().state.requestState ==
+            RequestState.loading)
+        // &&
+        // (context.read<HomeCubit>().state.currentUser == null)&&(state.categories.isEmpty)
+        ) {
+          return Scaffold(
+            body: const Center(child: LoadingLottie(width: 100, height: 100)),
+          );
+        } else {
+          return Scaffold(
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {},
+              //params
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
+            bottomNavigationBar: AnimatedBottomNavigationBar(
+              icons: [
+                Icons.home,
+                Icons.calendar_month,
+                Icons.person,
+                Icons.settings,
+              ],
+              activeIndex: context.read<HomeCubit>().state.currentIndex,
+              gapLocation: GapLocation.center,
+              activeColor: AppColors.primary,
+              inactiveColor: Colors.white,
+              notchSmoothness: NotchSmoothness.softEdge,
+              backgroundColor: AppColors.navBarWaveColor,
+              leftCornerRadius: 32,
+              rightCornerRadius: 32,
+              onTap:
+                  (index) => context
+                      .read<HomeCubit>()
+                      .changeCurrentScreenNavIndex(index),
+              //other params
+            ),
+            appBar: AppBar(
+              title: const Text('Home Screen'),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.logout),
+                  onPressed: () {
+                    context.read<HomeCubit>().logout();
+                    //diContainer<ScreenRouterHelper>().navigateToLogin();
+                  },
+                ),
+              ],
+            ),
+            body: fetchScreenByIndex(state.currentIndex),
+          );
         }
       },
-      buildWhen: (previous, current) {
-        return (previous.currentUser?.uid != current.currentUser?.uid)&&(previous.requestState != current.requestState);
-      },
-      builder: (context, state) {
-       if((state.requestState==RequestState.loading)||state.currentUser==null){
-          return Scaffold(
-
-            body: const Center(
-              child: LoadingLottie(
-                width: 100,
-                height: 100,
-              ),
-            ),
-          );
-       }else{
-         return Scaffold(
-           appBar: AppBar(
-             title: const Text('Home Screen'),
-             actions: [
-               IconButton(
-                 icon: const Icon(Icons.logout),
-                 onPressed: () {
-                   context.read<HomeCubit>().logout();
-                   //diContainer<ScreenRouterHelper>().navigateToLogin();
-                 },
-               ),
-             ],
-           ),
-           body: Center(
-             child: state.categories.isNotEmpty?Column(
-               children: [
-                 Text('${context.read<HomeCubit>().state.currentUser!.name}'),
-                 TextButton(
-                   child: Text('MobileScreen Home Screen'),
-                   onPressed: () {
-                     diContainer<ScreenRouterHelper>().navigateToLogin();
-                   },
-                 ),
-                 SizedBox(
-                     height: 60.h,
-                     child: CategoryChoicesDropDown()),
-                 Expanded(child: SpecialistsListView())
-               ],
-             ):Center(
-               child: LoadingLottie(
-                 width: 100,
-                 height: 100,
-               ),
-             ),
-           ),
-         );
-       }
-      },
     );
+  }
+
+  fetchScreenByIndex(index) {
+    if (index == 0) {
+      return CategoriesAndSpecialistsNavBarScreen();
+    }
+    if (index == 1) {
+      return UserAppointmentsNavBarScreen();
+    }
+    if (index == 2) {
+      return Container(color: Colors.yellow);
+    } else {
+      return Container(color: Colors.grey);
+    }
   }
 }

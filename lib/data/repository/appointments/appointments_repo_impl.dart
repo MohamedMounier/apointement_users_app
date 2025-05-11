@@ -30,6 +30,21 @@ class AppointmentsRepositoryImpl implements AppointmentsRepository {
       failure: ResponseWrapper.failure,
     );
   }
+  @override
+  Future<ResponseWrapper<List<AppointmentEntity>>> getAppointmentsForUser(
+      String userId,
+      ) async {
+    final response = await _dataSource.fetchAppointmentsForUser(
+      userId: userId,
+    );
+
+    return response.when(
+      success:
+          (models) =>
+          ResponseWrapper.success(models.map((m) => m.toEntity()).toList()),
+      failure: ResponseWrapper.failure,
+    );
+  }
 
   @override
   Future<ResponseWrapper<void>> bookAppointment(

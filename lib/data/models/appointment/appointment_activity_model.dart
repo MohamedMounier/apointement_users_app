@@ -12,7 +12,6 @@ part 'appointment_activity_model.g.dart';
 class AppointmentActivityModel {
   @JsonKey(name: 'appointment_id')
   final String appointmentId;
-  @JsonKey(name: 'user_id')
   final String userId;
   final String specialistId;
   @UserTypesJsonConverter()

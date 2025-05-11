@@ -9,6 +9,12 @@ enum BookAppointmentSteps {
   appointmentBooked,
   error,
 }
+enum UserAppointmentsSteps {
+  none,
+  gettingUserAppointmentsLoading,
+  gettingUserAppointmentsSuccess,
+  gettingUserAppointmentsError,
+}
 enum AppointmentStatus {
   pending,
   confirmed,

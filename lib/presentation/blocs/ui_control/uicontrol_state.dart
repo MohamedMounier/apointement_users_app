@@ -5,10 +5,12 @@ part of 'uicontrol_cubit.dart';
   final bool isLoading;
   final String? snackBarMessage;
   final bool isSnackBarVisible;
+  final bool isLightTheme;
 
   const UiControlState({
     required this.isLoading,
     this.snackBarMessage,
+    required this.isLightTheme,
     required this.isSnackBarVisible,
   });
 
@@ -18,6 +20,7 @@ part of 'uicontrol_cubit.dart';
       isLoading: false,
       snackBarMessage: null,
       isSnackBarVisible: false,
+      isLightTheme: true,
     );
   }
 
@@ -26,9 +29,11 @@ part of 'uicontrol_cubit.dart';
     bool? isLoading,
     String? snackBarMessage,
     bool? isSnackBarVisible,
+    bool? isLightTheme,
   }) {
     return UiControlState(
       isLoading: isLoading ?? this.isLoading,
+      isLightTheme: isLightTheme ?? this.isLightTheme,
       snackBarMessage: snackBarMessage ?? this.snackBarMessage,
       isSnackBarVisible: isSnackBarVisible ?? this.isSnackBarVisible,
     );

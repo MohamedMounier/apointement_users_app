@@ -4,7 +4,7 @@ import 'package:appointment_users/di/di_container.dart';
 import 'package:appointment_users/presentation/blocs/auth/auth_cubit.dart';
 import 'package:appointment_users/presentation/blocs/auth/auth_state.dart';
 import 'package:appointment_users/presentation/blocs/home/home_cubit.dart';
-import 'package:appointment_users/presentation/widgets/loading_lottie.dart';
+import 'package:appointment_users/presentation/shared/widgets/loading_lottie.dart';
 import 'package:appointment_users/router/screen_router_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

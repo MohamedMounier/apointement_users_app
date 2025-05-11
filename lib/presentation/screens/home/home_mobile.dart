@@ -2,10 +2,11 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:appointment_users/core/utils/enums/app_enums.dart';
 import 'package:appointment_users/presentation/blocs/home/home_cubit.dart';
 import 'package:appointment_users/presentation/blocs/home/home_state.dart';
+import 'package:appointment_users/presentation/blocs/ui_control/uicontrol_cubit.dart';
 import 'package:appointment_users/presentation/screens/home/nav_bar_screens/categories_and_specialists_nav_bar_screen.dart';
 import 'package:appointment_users/presentation/screens/home/nav_bar_screens/user_appointments_nav_bar_screen.dart';
 import 'package:appointment_users/presentation/shared/resources/app_colors.dart';
-import 'package:appointment_users/presentation/widgets/loading_lottie.dart';
+import 'package:appointment_users/presentation/shared/widgets/loading_lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -59,6 +60,9 @@ class HomeMobileScreen extends StatelessWidget {
             appBar: AppBar(
               title: const Text('Home Screen'),
               actions: [
+                IconButton(onPressed: (){
+                  context.read<UiControlCubit>().changeTheme();
+                }, icon: Icon(Icons.color_lens_outlined)),
                 IconButton(
                   icon: const Icon(Icons.logout),
                   onPressed: () {

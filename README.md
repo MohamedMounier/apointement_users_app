@@ -35,20 +35,7 @@ Then canceled
 
 ... and so on
 
-here is .env file you should put it in project folder :- 
-
-
-
-API_KEY_IOS=AIzaSyB_5k2l233-B5H-yy6RDJIFai5DXDS3Wh4
-APP_ID_IOS=1:325755820179:ios:14c2cf54c34e3b34dd9566
-BUNDLE_ID_IOS=com.example.appointmentUsers
-STORAGE_BUCKET=appointment-users.firebasestorage.app
-MESSAGE_SENDER_ID_IOS=325755820179
-API_KEY_ANDROID=AIzaSyAE0Dh7YO35SGVNATh0rmXAgxakMWZj4GI
-APP_ID_ANDROID=1:325755820179:android:ad06798eae330033dd9566
-PROJECT_ID=appointment-users
-STORAGE_BUCKET=appointment-users.firebasestorage.app
-MESSAGE_SENDER_ID_ANDROID=325755820179
+Contact Me to get the .env file
 
 Below Yo Can Check The Demo Video
 
